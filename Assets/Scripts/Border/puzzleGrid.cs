@@ -4,22 +4,29 @@ using UnityEngine;
 
 public class puzzleGrid 
 {
-    private Puzzle[][] puzzles;
 
-    Dictionary puzzleChances;
+    private int puzzleGameType;
+    private Puzzle[,] puzzles;
+    private Dictionary <int,float> puzzleChances;
 
 
-    public puzzleGrid(int width , int height , Dictionary puzzleChances <int,float> , int puzzleGameType)
+    public puzzleGrid(int width , int hight , Dictionary <int, float> puzzleChances  , int puzzleGameType )
     {
         this.puzzleChances = puzzleChances;
+        this.puzzleGameType = puzzleGameType;
 
-        puzzles = new puzzleGrid[width][height];
-        initPuzzleGrid(puzzles,puzzleGameType);
+        puzzles = new Puzzle[width, hight];
+
+        initPuzzleGrid();
     }
 
-    private void initPuzzleGrid(Puzzle[][] puzzles, int type)
+    private void initPuzzleGrid()
     {
+        foreach ( var puzzle in puzzles )
+        {
+            // Dla ka¿dego puzzla na podstawie dic puzzleChances wybrac jaki w danym miejscu ma byc puzel
 
+        }
     }
 
 
@@ -54,39 +61,39 @@ public class puzzleGrid
         }
 
     }
-    public interface puzzlesGamesTypes
+    public abstract class puzzlesGamesTypes
     {
         //-- classic
-        int static const farm      = 1;
-        int static const mine       = 2;
+        public const int farm       = 1;
+        public const int mine       = 2;
     }
 
-    public interface puzzlesTypes
+    public abstract class puzzlesTypes
     {
         //-- classic
         // farm
-        int static const grass      = 1;
-        int static const wheat      = 2;
-        int static const chicken    = 3;
-        int static const pig        = 4;
-        int static const carrot     = 5;
-        int static const tree       = 6;
+        public const int grass      = 1;
+        public const int wheat      = 2;
+        public const int chicken    = 3;
+        public const int pig        = 4;
+        public const int carrot     = 5;
+        public const int tree       = 6;
 
         // mine
-        int static const dirt       = 7;
-        int static const iron       = 8;
-        int static const stone      = 9;
-        int static const coal       = 10;
-        int static const gold       = 11;
-        int static const silver     = 12;
-        int static const diamond    = 13;
+        public const int dirt       = 7;
+        public const int iron       = 8;
+        public const int stone      = 9;
+        public const int coal       = 10;
+        public const int gold       = 11;
+        public const int silver     = 12;
+        public const int diamond    = 13;
 
         //-- enemies 
         // farm
-        int static const rat        = 14;
+        const int rat        = 14;
 
         // mine
-        int static const lava       = 15;
+        const int lava       = 15;
 
     }
 }
