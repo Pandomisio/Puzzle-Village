@@ -9,6 +9,8 @@ public class MaterialsController : MonoBehaviour
     public int playersPremium;
     public int playersWood;
     public int playersRock;
+
+    private int[] playerMaterials;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,5 +21,10 @@ public class MaterialsController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetResource(int index )
+    {
+        playerMaterials[index]++;
     }
 }
