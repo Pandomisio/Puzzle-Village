@@ -47,40 +47,6 @@ public class Puzzle : MonoBehaviour
     {
         Debug.Log("You unclicked our puzzle");
     }
-    public abstract class puzzlesGamesTypes
-    {
-        //-- classic
-        public const int farm = 1;
-        public const int mine = 2;
-    }
-
-    public abstract class puzzlesTypes
-    {
-        //-- classic
-        // farm
-        public const int grass = 1;
-        public const int wheat = 2;
-        public const int chicken = 3;
-        public const int pig = 4;
-        public const int carrot = 5;
-        public const int tree = 6;
-
-        // mine
-        public const int dirt = 7;
-        public const int iron = 8;
-        public const int stone = 9;
-        public const int coal = 10;
-        public const int gold = 11;
-        public const int silver = 12;
-        public const int diamond = 13;
-
-        //-- enemies 
-        // farm
-        const int rat = 14;
-
-        // mine
-        const int lava = 15;
-
-    }
+    
 
 }
