@@ -6,17 +6,17 @@ using UnityEngine.UI;
 public class ShowValue : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Text counterText;
+    public Text moneyText;
     public MaterialsController materialsController;
     void Start()
     {
-        materialsController=GetComponent<MaterialsController>();
-        counterText=GetComponent<Text>();
+        materialsController=GameObject.Find("TownHall").GetComponent<MaterialsController>();
+        moneyText=GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //counterText.text = materialsController.playersGold.ToString();//counter.ToString();
+        moneyText.text = materialsController.playersMoney.ToString();//counter.ToString();
     }
 }

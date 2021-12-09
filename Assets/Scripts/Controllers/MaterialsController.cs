@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MaterialsController : MonoBehaviour
 {
-    public int playersGold;
+    public int playersMoney;
     public int playersGlory;
     public int playersPremium;
     public int playersWood;
