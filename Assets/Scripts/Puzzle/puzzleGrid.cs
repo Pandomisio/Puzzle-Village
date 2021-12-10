@@ -3,46 +3,58 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class puzzleGrid : MonoBehaviour, IPointerDownHandler , IPointerUpHandler
+public class puzzleGrid : MonoBehaviour
 {
     // Our prefabs
     public GameObject[] puzzlePrefabs;
     // Our puzzles
     public GameObject[,] puzzles;
 
-    bool buttonPressed;
+    bool fingerPressed;
 
     // Todo Another class for chances Singleton i guess
     [SerializeField] private Dictionary <int,float> puzzleChances;
 
     [SerializeField] private int width, height;
-    private void Start()
+    public void Start()
     {
         puzzles = new GameObject[width, height];
 
         InitPuzzleGrid();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+            FingerDown();
+        else
+            FingerUp();
+    }
     private void InitPuzzleGrid()
     {
        for ( int i = 0; i < width; i++ )
        {
             for ( int j = 0; j < height; j++ )
             {
-                int GetPuzzle = WhatPuzzleToGrid();
+                int getPuzzleType = WhatPuzzleToGrid();
 
-                Vector3 childScale = puzzlePrefabs[GetPuzzle].transform.localScale;
+                Vector3 childScale = puzzlePrefabs[getPuzzleType].transform.localScale;
                 Vector3 vector3 = PositionForPuzzle(i + ( i * childScale.x), j + (j * childScale.y) );
 
                 // Init a prefab and make him a child
-                puzzles[i, j] = Instantiate(puzzlePrefabs[GetPuzzle], vector3, transform.rotation);
+                puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
                 puzzles[i,j].transform.parent = transform;
+                puzzles[i, j].GetComponent<Puzzle>().SetUpType(getPuzzleType);
             }
        }    
     }
     private int WhatPuzzleToGrid()
     {
-        return puzzlesTypes.puzzleFarm.wheat;
+        int rnd = Random.Range(0, 2);
+        if (rnd == 0)
+            return puzzlesTypes.puzzleFarm.grass;
+        else
+            return puzzlesTypes.puzzleFarm.wheat;
     }
 
 
@@ -51,18 +63,55 @@ public class puzzleGrid : MonoBehaviour, IPointerDownHandler , IPointerUpHandler
         return new Vector3(transform.position.x + i, transform.position.y + j, 0);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void FadeTypeOfPuzzle(int type)
     {
-        // Somebody cliceked
-        Debug.Log("Clicekd");
-        buttonPressed = true;
-    }
+        foreach ( GameObject puzzle in puzzles)
+        {
+            Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
+            if (puzzleScript != null)
+            {
+                puzzleScript.PlayerFingerDown();
 
-    public void OnPointerUp(PointerEventData eventData)
+                if (!puzzleScript.isSelectedPuzzle(type))
+                {
+                    puzzleScript.FadePuzzle();
+                }
+                
+
+                    // Potentaily to destroy
+            }
+        }
+    }
+    private void FingerUp()
     {
-        // They unclicked
-        Debug.Log("Unclicked");
-        buttonPressed = false;
+        // Check if player marked some puzzles to gather
+
+
+        if (fingerPressed != true)
+        {
+            foreach (GameObject puzzle in puzzles)
+            {
+                Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
+                if (puzzleScript != null)
+                    puzzleScript.PlayerFingerUp();
+            }
+            fingerPressed = true;
+        }
+        
+    }
+    private void FingerDown()
+    {
+        if (fingerPressed != false)
+        {
+            foreach (GameObject puzzle in puzzles)
+            {
+                Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
+                if (puzzleScript != null)              
+                    puzzleScript.PlayerFingerDown();               
+            }
+
+            fingerPressed = false;
+        }
     }
 
 
