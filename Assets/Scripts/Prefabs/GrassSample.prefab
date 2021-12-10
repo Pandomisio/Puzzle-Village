@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3748159518452102080}
-  - component: {fileID: 1553609307626373752}
   - component: {fileID: 942638842018870516}
+  - component: {fileID: 3419990568284684659}
   m_Layer: 0
   m_Name: GrassSample
   m_TagString: Untagged
@@ -34,20 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1553609307626373752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3484720283281838712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06127fcbd969b5b4493c18252079242e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  downSizeScale: 0.35
 --- !u!50 &942638842018870516
 Rigidbody2D:
   serializedVersion: 4
@@ -69,6 +55,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!114 &3419990568284684659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3484720283281838712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06127fcbd969b5b4493c18252079242e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  downSizeScale: 0.35
+  speed: 0.25
+  newLocation: {x: 0, y: 0}
+  changedPos: 0
 --- !u!1 &6886380175011419266
 GameObject:
   m_ObjectHideFlags: 0

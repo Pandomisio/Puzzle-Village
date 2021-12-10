@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class puzzleGrid : MonoBehaviour
 {
@@ -29,7 +27,8 @@ public class puzzleGrid : MonoBehaviour
     [SerializeField] private int width, height;
     public void Start()
     {
-        puzzles = new GameObject[width, height];
+        // +1 for respiwng puzzles above map
+        puzzles = new GameObject[width, height + 1];
         puzzlesToDelete = new GameObject[width * height];
         puzzlesPosition = new Vector2 [width, height + 1];
 
@@ -59,7 +58,7 @@ public class puzzleGrid : MonoBehaviour
                     // Init a prefab and make him a child
                     puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
                     puzzles[i, j].transform.parent = transform;
-                    puzzles[i, j].GetComponent<Puzzle>().SetUpType(getPuzzleType);
+                    puzzles[i, j].GetComponent<Puzzle>().SetUpType(getPuzzleType);                  
                 }
 
                 puzzlesPosition[i, j] = new Vector2(vector3.x, vector3.y);
@@ -75,8 +74,10 @@ public class puzzleGrid : MonoBehaviour
             return puzzlesTypes.puzzleFarm.wheat;
     }
     private Vector3 PositionForPuzzle(float i , float j)
-    {    
-        return new Vector3(transform.position.x + i, transform.position.y + j, 0);
+    {
+        // .01 to be diffrent then Vector3.zero
+        //return new Vector3(transform.position.x + i + .01f, transform.position.y + j + .01f, 0);
+        return new Vector3(i + .01f,j + .01f, 0);
     }
 
     public void FadeTypeOfPuzzle(int type)
@@ -125,7 +126,6 @@ public class puzzleGrid : MonoBehaviour
         Debug.Log(" Zebra³eœ typ: " + playerGatheringPuzzleType + " w iloœci: " + playerGatheringPuzzleCount);
 
         SortOutGrid();
-        //AddNewPuzzlesToGrid();
     }
 
     /*private void DestroyPuzzlesInGrid()
@@ -176,8 +176,9 @@ public class puzzleGrid : MonoBehaviour
                             fallingPuzzle = puzzles[i, k];
                             puzzles[i, k] = null;
                             puzzles[i, j] = fallingPuzzle;
-                            //puzzles[i, j].GetComponent<Puzzle>().GiveNewPosition(puzzlesPosition[i, j]);
-                            fallingPuzzle.transform.position = puzzlesPosition[i,j];
+
+                            puzzles[i, j].GetComponent<Puzzle>().GiveNewPosition(puzzlesPosition[i, j]);
+                            //fallingPuzzle.transform.position = puzzlesPosition[i,j];
                             break;
                         }
 
@@ -200,7 +201,6 @@ public class puzzleGrid : MonoBehaviour
         int debugDestroyedPuzzles = 0;
         for (int i = 0; i < width; i++)
         {
-            // add to height +1 for creaint new puzzles above map
             for (int j = 0; j < height; j++)
             {
                 if (puzzles[i, j] == null)
@@ -210,17 +210,21 @@ public class puzzleGrid : MonoBehaviour
                     int getPuzzleType = WhatPuzzleToGrid();
                     Vector3 vector3 = new Vector3(puzzlesPosition[i, j].x, puzzlesPosition[i, j].y, 0f);
 
-                    if (j < height)
-                    {
-                        // Init a prefab and make him a child
-                        puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
-                        puzzles[i, j].transform.parent = transform;
-                        puzzles[i, j].GetComponent<Puzzle>().SetUpType(getPuzzleType);
-                    }
+                    
+                    // Init a prefab and make him a child
+                    puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], puzzlesPosition[i, height], transform.rotation);
+                    //puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
+
+                    puzzles[i, j].transform.parent = transform;
+                    Puzzle puzzle = puzzles[i, j].GetComponent<Puzzle>();
+                    puzzle.SetUpType(getPuzzleType);
+                    puzzle.GiveNewPosition(vector3);               
+                   
+
                 }
             }
         }
-        Debug.Log("debugDestroyedPuzzles:" + debugDestroyedPuzzles);
+        //Debug.Log("debugDestroyedPuzzles:" + debugDestroyedPuzzles);
     }
 
     //Player dont use finger

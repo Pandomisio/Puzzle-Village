@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4895927801474491911}
-  - component: {fileID: 2788955547386991995}
   - component: {fileID: 1336484031902331055}
+  - component: {fileID: 3859201973554182964}
   m_Layer: 0
   m_Name: WheatPuzzle
   m_TagString: Untagged
@@ -34,19 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2788955547386991995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526690735436409882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06127fcbd969b5b4493c18252079242e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
 --- !u!50 &1336484031902331055
 Rigidbody2D:
   serializedVersion: 4
@@ -68,6 +55,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!114 &3859201973554182964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526690735436409882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06127fcbd969b5b4493c18252079242e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  downSizeScale: 0.35
+  speed: 0.25
+  newLocation: {x: 0, y: 0}
+  changedPos: 0
 --- !u!1 &6827048768013295201
 GameObject:
   m_ObjectHideFlags: 0

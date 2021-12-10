@@ -4,37 +4,57 @@ using UnityEngine;
 
 public class Puzzle : MonoBehaviour
 {
-    // Steps
-    // 1.After clicking first puzzle disable other ( fade and turn off colliders )
-    // 2.
-
-
     [SerializeField] private int type;
     [SerializeField] private float downSizeScale = 0.35f;
-    [SerializeField] private float fallSpeed = .5f;
-
+    
     private Vector3 defaultScale;
-    private Vector2 newLocation;
-
+    
     private puzzleGrid grid;
     private bool playerUseFinger;
     private bool isSelectedPuzzle;
 
-    private void Start()
+    [SerializeField] private float speed = .25f;
+    private float journeyLength;
+    private float startTime;
+
+    public Vector2 newLocation;
+    public bool changedPos;
+    
+    void Awake()
     {
+        newLocation = transform.localPosition;
+    }
+
+    public void Start()
+    {
+        changedPos = false;
         defaultScale = transform.localScale;
+        //newLocation = transform.localPosition
 
         grid = GetComponentInParent<puzzleGrid>();
         if (grid == null)
             Debug.LogError("No puzzleGrid componnent");
     }
-    private void Update()
+    public void Update()
     {
         if (!playerUseFinger)
         {
             unFadePuzzle();
             unSelectPuzzle();
         }
+        
+        if (newLocation != Vector2.zero)
+        {      
+            // Distance moved equals elapsed time times speed..
+            float distCovered = (Time.time - startTime) * speed;
+
+            // Fraction of journey completed equals current distance divided by total distance.
+            float fractionOfJourney = distCovered / journeyLength;
+
+            // Set our position as a fraction of the distance between the markers.
+            transform.position = Vector3.Lerp(transform.localPosition, newLocation, fractionOfJourney);
+        }
+
 
     }
 
@@ -42,11 +62,13 @@ public class Puzzle : MonoBehaviour
     public void PlayerDoesntUseFigner() => playerUseFinger = false;
     public void PlayerUseFinger() => playerUseFinger = true;
     public bool IsPuzzleSelected() => isSelectedPuzzle;
-    public void GiveNewPosition(Vector2 newPos) => newLocation = newPos;
-
-
     private void unSelectPuzzle() => isSelectedPuzzle = false;
-
+    public void GiveNewPosition(Vector2 newPos)
+    {     
+        newLocation = newPos;
+        journeyLength = Vector3.Distance(transform.position, newLocation);
+        startTime = Time.time;
+    }
 
     public bool IsSelectedTypePuzzle(int type)
     {
