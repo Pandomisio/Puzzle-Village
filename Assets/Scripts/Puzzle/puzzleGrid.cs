@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class puzzleGrid : MonoBehaviour
 {
+    [SerializeField] int minPuzzleToGather = 3;
     // Our prefabs
     public GameObject[] puzzlePrefabs;
     // Our puzzles
     public GameObject[,] puzzles;
+    private GameObject[] puzzlesToDelete;
 
-    bool fingerPressed;
+    bool playerUseFinger;
+    int playerGatheringPuzzleType;
+    int playerGatheringPuzzleCount;
 
     // Todo Another class for chances Singleton i guess
     [SerializeField] private Dictionary <int,float> puzzleChances;
@@ -19,6 +24,7 @@ public class puzzleGrid : MonoBehaviour
     public void Start()
     {
         puzzles = new GameObject[width, height];
+        puzzlesToDelete = new GameObject[width * height];
 
         InitPuzzleGrid();
     }
@@ -27,7 +33,7 @@ public class puzzleGrid : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
             FingerDown();
-        else
+        else if (Input.GetKeyUp(KeyCode.Mouse0))
             FingerUp();
     }
     private void InitPuzzleGrid()
@@ -65,52 +71,87 @@ public class puzzleGrid : MonoBehaviour
 
     public void FadeTypeOfPuzzle(int type)
     {
+        playerGatheringPuzzleType = type;
         foreach ( GameObject puzzle in puzzles)
         {
-            Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
-            if (puzzleScript != null)
+            if (puzzle != null)
             {
-                puzzleScript.PlayerFingerDown();
+                Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
 
-                if (!puzzleScript.isSelectedPuzzle(type))
+                if (puzzleScript != null)
                 {
-                    puzzleScript.FadePuzzle();
-                }
-                
+                    playerUseFinger = true;
+                    puzzleScript.PlayerUseFinger();
 
-                    // Potentaily to destroy
+                    if (!puzzleScript.IsSelectedTypePuzzle(type))
+                    {
+                        puzzleScript.FadePuzzle();
+                    }
+                }
             }
         }
     }
+
+    //Player dont use finger
     private void FingerUp()
     {
         // Check if player marked some puzzles to gather
+        playerGatheringPuzzleCount = 0;
 
-
-        if (fingerPressed != true)
+        if (playerUseFinger == true)
         {
             foreach (GameObject puzzle in puzzles)
             {
-                Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
-                if (puzzleScript != null)
-                    puzzleScript.PlayerFingerUp();
+                if (puzzle != null)
+                {
+                    Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
+                    if (puzzleScript.IsPuzzleSelected())
+                    {
+                        puzzlesToDelete[playerGatheringPuzzleCount] = puzzleScript.gameObject;
+                        playerGatheringPuzzleCount++;
+                    }
+
+                    if (puzzleScript != null)
+                        puzzleScript.PlayerDoesntUseFigner();
+                }
             }
-            fingerPressed = true;
+            // COunt System.Linq
+            if (playerGatheringPuzzleCount >= minPuzzleToGather)
+            {
+                Debug.Log("Player selected: " + playerGatheringPuzzleCount + " minPuzzleToHather: " + minPuzzleToGather);
+                foreach ( GameObject puzzle in puzzlesToDelete)
+                    Destroy(puzzle);
+            }
+
+            playerUseFinger = false;
+
+            Debug.Log(" Zebra³eœ typ: " + playerGatheringPuzzleType + " w iloœci: " + playerGatheringPuzzleCount);
+
+            playerGatheringPuzzleType = -1;
+            
+
         }
         
     }
+
+    // Player use finger
+    // Used in fadeTypePuzzl not needed?
     private void FingerDown()
     {
-        if (fingerPressed != false)
+        if (playerUseFinger == false)
         {
             foreach (GameObject puzzle in puzzles)
             {
-                Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
-                if (puzzleScript != null)              
-                    puzzleScript.PlayerFingerDown();               
+                if (puzzle != null)
+                {
+                    Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
+
+                    if (puzzleScript != null)
+                        puzzleScript.PlayerUseFinger();
+                }
             }
 
-            fingerPressed = false;
+            playerUseFinger = true;
         }
     }
 

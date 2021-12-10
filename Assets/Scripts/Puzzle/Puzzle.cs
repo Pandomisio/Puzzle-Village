@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Puzzle : MonoBehaviour
 {
+    // Steps
+    // 1.After clicking first puzzle disable other ( fade and turn off colliders )
+    // 2.
+
+
     [SerializeField] private int type;
     [SerializeField] private float downSizeScale = 0.35f;
 
@@ -11,6 +16,7 @@ public class Puzzle : MonoBehaviour
 
     private puzzleGrid grid;
     private bool playerUseFinger;
+    private bool isSelectedPuzzle;
 
     private void Start()
     {
@@ -23,15 +29,20 @@ public class Puzzle : MonoBehaviour
     private void Update()
     {
         if (!playerUseFinger)
+        {
             unFadePuzzle();
+            unSelectPuzzle();
+        }
+            
     }
 
     public void SetUpType(int type) => this.type = type;
-    public void PlayerFingerUp() => playerUseFinger = false;
-    public void PlayerFingerDown() => playerUseFinger = true;
+    public void PlayerDoesntUseFigner() => playerUseFinger = false;
+    public void PlayerUseFinger() => playerUseFinger = true;
+    public bool IsPuzzleSelected() => isSelectedPuzzle; 
 
 
-    public bool isSelectedPuzzle(int type)
+    public bool IsSelectedTypePuzzle(int type)
     {
         // If im the same type of selected puzzle dont fade me
         if (this.type == type)
@@ -40,6 +51,19 @@ public class Puzzle : MonoBehaviour
             return false;
     }
 
+    private void SelectedPuzzle()
+    {
+        // Scale it a bit down
+        transform.localScale = new Vector3(downSizeScale, downSizeScale, downSizeScale);
+        isSelectedPuzzle = true;
+    }
+
+    private void unSelectPuzzle()
+    {
+        isSelectedPuzzle = false;
+    }
+
+
     public void FadePuzzle()
     {
         // Transparency
@@ -47,10 +71,10 @@ public class Puzzle : MonoBehaviour
         color.a = .6f;
         GetComponentInChildren<SpriteRenderer>().color = color;
         // Scale it a bit down
-        transform.localScale = new Vector3(.35f, .35f, .35f);
+        transform.localScale = new Vector3(downSizeScale, downSizeScale, downSizeScale);
+        // Disable collider
+        GetComponentInChildren<Collider2D>().enabled = false;
     }
-
-    //-- Czy nie pod³¹czyæ tego do odjêcia palca? event?
     public void unFadePuzzle()
     {
         // Bring Transparency back
@@ -59,12 +83,14 @@ public class Puzzle : MonoBehaviour
         GetComponentInChildren<SpriteRenderer>().color = color;
         // Bring scaling back
         transform.localScale = defaultScale;
+        // Enable collider
+        GetComponentInChildren<Collider2D>().enabled = true;
     }
 
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         // Destroy (this.gameObject);
-        //Debug.Log("You clicked our puzzle");
+        Debug.Log("You clicked our puzzle");
         grid.FadeTypeOfPuzzle(type);
         //FadePuzzle();
     }
@@ -72,7 +98,9 @@ public class Puzzle : MonoBehaviour
     private void OnMouseOver()
     {
         if (playerUseFinger)
-            Debug.Log("Another puzzle");
+            SelectedPuzzle();
+        //Debug.Log("You Over our puzzle");
+        //FadePuzzle();
     }
 
     private void OnMouseExit()
