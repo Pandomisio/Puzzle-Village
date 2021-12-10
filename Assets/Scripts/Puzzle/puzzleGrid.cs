@@ -11,9 +11,15 @@ public class puzzleGrid : MonoBehaviour
     public GameObject[] puzzlePrefabs;
     // Our puzzles
     public GameObject[,] puzzles;
+    // Temporary storage for puzzles 
     private GameObject[] puzzlesToDelete;
+    // Every location for puzzle
+    private Vector2 [,] puzzlesPosition;
 
     bool playerUseFinger;
+    bool destroyedSomePuzzles;
+
+    // TO know what player gathered and how much
     int playerGatheringPuzzleType;
     int playerGatheringPuzzleCount;
 
@@ -25,6 +31,7 @@ public class puzzleGrid : MonoBehaviour
     {
         puzzles = new GameObject[width, height];
         puzzlesToDelete = new GameObject[width * height];
+        puzzlesPosition = new Vector2 [width, height + 1];
 
         InitPuzzleGrid();
     }
@@ -35,22 +42,27 @@ public class puzzleGrid : MonoBehaviour
             FingerDown();
         else if (Input.GetKeyUp(KeyCode.Mouse0))
             FingerUp();
+
     }
     private void InitPuzzleGrid()
     {
        for ( int i = 0; i < width; i++ )
        {
-            for ( int j = 0; j < height; j++ )
+            for ( int j = 0; j < height + 1; j++ )
             {
                 int getPuzzleType = WhatPuzzleToGrid();
-
                 Vector3 childScale = puzzlePrefabs[getPuzzleType].transform.localScale;
-                Vector3 vector3 = PositionForPuzzle(i + ( i * childScale.x), j + (j * childScale.y) );
+                Vector3 vector3 = PositionForPuzzle(i + (i * childScale.x), j + (j * childScale.y));
 
-                // Init a prefab and make him a child
-                puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
-                puzzles[i,j].transform.parent = transform;
-                puzzles[i, j].GetComponent<Puzzle>().SetUpType(getPuzzleType);
+                if ( j < height)
+                {
+                    // Init a prefab and make him a child
+                    puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
+                    puzzles[i, j].transform.parent = transform;
+                    puzzles[i, j].GetComponent<Puzzle>().SetUpType(getPuzzleType);
+                }
+
+                puzzlesPosition[i, j] = new Vector2(vector3.x, vector3.y);
             }
        }    
     }
@@ -62,8 +74,6 @@ public class puzzleGrid : MonoBehaviour
         else
             return puzzlesTypes.puzzleFarm.wheat;
     }
-
-
     private Vector3 PositionForPuzzle(float i , float j)
     {    
         return new Vector3(transform.position.x + i, transform.position.y + j, 0);
@@ -92,7 +102,129 @@ public class puzzleGrid : MonoBehaviour
         }
     }
 
+    private void DestroyPuzzlesInGrid()
+    {
+        playerGatheringPuzzleCount = 0;
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                GameObject gameObject = puzzles[i, j];
+                if (gameObject != null)
+                {
+                    Puzzle puzzle = gameObject.GetComponent<Puzzle>();
+                    if (puzzle.IsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
+                    {
+                        Destroy(puzzle.gameObject);
+                        puzzles[i, j] = null;
+                        playerGatheringPuzzleCount++;
+                    }
+                }
+            }
+        }
+        Debug.Log(" Zebra³eœ typ: " + playerGatheringPuzzleType + " w iloœci: " + playerGatheringPuzzleCount);
+
+        SortOutGrid();
+        //AddNewPuzzlesToGrid();
+    }
+
+    /*private void DestroyPuzzlesInGrid()
+    {
+        playerGatheringPuzzleCount = 0;
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                Puzzle puzzle = puzzles[i, j].GetComponent<Puzzle>();
+                if (puzzle != null)
+                {
+                    if ( puzzle.IsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType) )
+                    {
+                        Destroy(puzzle.gameObject);
+                        puzzles[i, j] = null;
+                        playerGatheringPuzzleCount++;
+                    }
+                }
+            }
+        }
+        Debug.Log(" Zebra³eœ typ: " + playerGatheringPuzzleType + " w iloœci: " + playerGatheringPuzzleCount);
+
+        SortOutGrid();
+        //AddNewPuzzlesToGrid();
+    }*/
+
+    private void SortOutGrid()
+    {
+        // From bottom to up
+        // need to check one above
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                GameObject puzzle = puzzles[i, j];
+
+                if (puzzle == null)
+                {
+                    // We need to look higher for falling puzzle
+                    GameObject fallingPuzzle;
+
+                    for (int k = j+1; k < height; k++)
+                    {
+                        if (puzzles[i,k] != null)
+                        {
+                            fallingPuzzle = puzzles[i, k];
+                            puzzles[i, k] = null;
+                            puzzles[i, j] = fallingPuzzle;
+                            //puzzles[i, j].GetComponent<Puzzle>().GiveNewPosition(puzzlesPosition[i, j]);
+                            fallingPuzzle.transform.position = puzzlesPosition[i,j];
+                            break;
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    // We have an puzzle in this place
+                }
+
+
+            }
+        }
+        AddNewPuzzlesToGrid();
+    }
+
+    private void AddNewPuzzlesToGrid()
+    {
+        int debugDestroyedPuzzles = 0;
+        for (int i = 0; i < width; i++)
+        {
+            // add to height +1 for creaint new puzzles above map
+            for (int j = 0; j < height; j++)
+            {
+                if (puzzles[i, j] == null)
+                {
+                    debugDestroyedPuzzles++;
+
+                    int getPuzzleType = WhatPuzzleToGrid();
+                    Vector3 vector3 = new Vector3(puzzlesPosition[i, j].x, puzzlesPosition[i, j].y, 0f);
+
+                    if (j < height)
+                    {
+                        // Init a prefab and make him a child
+                        puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
+                        puzzles[i, j].transform.parent = transform;
+                        puzzles[i, j].GetComponent<Puzzle>().SetUpType(getPuzzleType);
+                    }
+                }
+            }
+        }
+        Debug.Log("debugDestroyedPuzzles:" + debugDestroyedPuzzles);
+    }
+
     //Player dont use finger
+    #region ComputeUserFingers
     private void FingerUp()
     {
         // Check if player marked some puzzles to gather
@@ -106,33 +238,30 @@ public class puzzleGrid : MonoBehaviour
                 {
                     Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
                     if (puzzleScript.IsPuzzleSelected())
-                    {
-                        puzzlesToDelete[playerGatheringPuzzleCount] = puzzleScript.gameObject;
-                        playerGatheringPuzzleCount++;
+                    {                    
+                        playerGatheringPuzzleCount++;                      
                     }
 
                     if (puzzleScript != null)
                         puzzleScript.PlayerDoesntUseFigner();
                 }
             }
-            // COunt System.Linq
+
             if (playerGatheringPuzzleCount >= minPuzzleToGather)
             {
-                Debug.Log("Player selected: " + playerGatheringPuzzleCount + " minPuzzleToHather: " + minPuzzleToGather);
-                foreach ( GameObject puzzle in puzzlesToDelete)
-                    Destroy(puzzle);
+                DestroyPuzzlesInGrid();
             }
 
-            playerUseFinger = false;
-
-            Debug.Log(" Zebra³eœ typ: " + playerGatheringPuzzleType + " w iloœci: " + playerGatheringPuzzleCount);
-
+            playerUseFinger = false;       
             playerGatheringPuzzleType = -1;
-            
-
+           
         }
         
     }
+
+    
+
+    
 
     // Player use finger
     // Used in fadeTypePuzzl not needed?
@@ -154,6 +283,7 @@ public class puzzleGrid : MonoBehaviour
             playerUseFinger = true;
         }
     }
+    #endregion
 
 
 

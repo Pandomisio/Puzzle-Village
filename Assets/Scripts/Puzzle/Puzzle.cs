@@ -11,8 +11,10 @@ public class Puzzle : MonoBehaviour
 
     [SerializeField] private int type;
     [SerializeField] private float downSizeScale = 0.35f;
+    [SerializeField] private float fallSpeed = .5f;
 
     private Vector3 defaultScale;
+    private Vector2 newLocation;
 
     private puzzleGrid grid;
     private bool playerUseFinger;
@@ -33,13 +35,17 @@ public class Puzzle : MonoBehaviour
             unFadePuzzle();
             unSelectPuzzle();
         }
-            
+
     }
 
     public void SetUpType(int type) => this.type = type;
     public void PlayerDoesntUseFigner() => playerUseFinger = false;
     public void PlayerUseFinger() => playerUseFinger = true;
-    public bool IsPuzzleSelected() => isSelectedPuzzle; 
+    public bool IsPuzzleSelected() => isSelectedPuzzle;
+    public void GiveNewPosition(Vector2 newPos) => newLocation = newPos;
+
+
+    private void unSelectPuzzle() => isSelectedPuzzle = false;
 
 
     public bool IsSelectedTypePuzzle(int type)
@@ -57,13 +63,6 @@ public class Puzzle : MonoBehaviour
         transform.localScale = new Vector3(downSizeScale, downSizeScale, downSizeScale);
         isSelectedPuzzle = true;
     }
-
-    private void unSelectPuzzle()
-    {
-        isSelectedPuzzle = false;
-    }
-
-
     public void FadePuzzle()
     {
         // Transparency
@@ -90,7 +89,7 @@ public class Puzzle : MonoBehaviour
     public void OnMouseDown()
     {
         // Destroy (this.gameObject);
-        Debug.Log("You clicked our puzzle");
+        //Debug.Log("You clicked our puzzle");
         grid.FadeTypeOfPuzzle(type);
         //FadePuzzle();
     }
