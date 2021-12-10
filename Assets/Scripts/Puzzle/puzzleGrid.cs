@@ -9,8 +9,6 @@ public class puzzleGrid : MonoBehaviour
     public GameObject[] puzzlePrefabs;
     // Our puzzles
     public GameObject[,] puzzles;
-    // Temporary storage for puzzles 
-    private GameObject[] puzzlesToDelete;
     // Every location for puzzle
     private Vector2 [,] puzzlesPosition;
 
@@ -29,9 +27,7 @@ public class puzzleGrid : MonoBehaviour
     {
         // +1 for respiwng puzzles above map
         puzzles = new GameObject[width, height + 1];
-        puzzlesToDelete = new GameObject[width * height];
         puzzlesPosition = new Vector2 [width, height + 1];
-
         InitPuzzleGrid();
     }
 
@@ -128,31 +124,6 @@ public class puzzleGrid : MonoBehaviour
         SortOutGrid();
     }
 
-    /*private void DestroyPuzzlesInGrid()
-    {
-        playerGatheringPuzzleCount = 0;
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < height; j++)
-            {
-                Puzzle puzzle = puzzles[i, j].GetComponent<Puzzle>();
-                if (puzzle != null)
-                {
-                    if ( puzzle.IsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType) )
-                    {
-                        Destroy(puzzle.gameObject);
-                        puzzles[i, j] = null;
-                        playerGatheringPuzzleCount++;
-                    }
-                }
-            }
-        }
-        Debug.Log(" Zebra³eœ typ: " + playerGatheringPuzzleType + " w iloœci: " + playerGatheringPuzzleCount);
-
-        SortOutGrid();
-        //AddNewPuzzlesToGrid();
-    }*/
-
     private void SortOutGrid()
     {
         // From bottom to up
@@ -189,8 +160,6 @@ public class puzzleGrid : MonoBehaviour
                 {
                     // We have an puzzle in this place
                 }
-
-
             }
         }
         AddNewPuzzlesToGrid();

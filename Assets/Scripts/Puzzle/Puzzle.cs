@@ -18,16 +18,14 @@ public class Puzzle : MonoBehaviour
     private float startTime;
 
     public Vector2 newLocation;
-    public bool changedPos;
     
-    void Awake()
+    private void Awake()
     {
         newLocation = transform.localPosition;
     }
 
-    public void Start()
+    private void Start()
     {
-        changedPos = false;
         defaultScale = transform.localScale;
         //newLocation = transform.localPosition
 
@@ -35,7 +33,7 @@ public class Puzzle : MonoBehaviour
         if (grid == null)
             Debug.LogError("No puzzleGrid componnent");
     }
-    public void Update()
+    private void Update()
     {
         if (!playerUseFinger)
         {
@@ -108,25 +106,19 @@ public class Puzzle : MonoBehaviour
         GetComponentInChildren<Collider2D>().enabled = true;
     }
 
-    public void OnMouseDown()
+    private void OnMouseDown()
     {
-        // Destroy (this.gameObject);
-        //Debug.Log("You clicked our puzzle");
         grid.FadeTypeOfPuzzle(type);
-        //FadePuzzle();
     }
 
     private void OnMouseOver()
     {
         if (playerUseFinger)
             SelectedPuzzle();
-        //Debug.Log("You Over our puzzle");
-        //FadePuzzle();
     }
 
     private void OnMouseExit()
     {
-        //Debug.Log("You unclicked our puzzle");
         if ( !playerUseFinger )
             unFadePuzzle();
     }
