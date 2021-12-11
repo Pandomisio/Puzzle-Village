@@ -14,6 +14,7 @@ public class Puzzle : MonoBehaviour
 
     private bool isSelectedPuzzle;
     private bool canBeSelected;
+    private bool readyToUnselect = false;
 
     [SerializeField] private float speed = .25f;
     private float journeyLength;
@@ -62,19 +63,24 @@ public class Puzzle : MonoBehaviour
 
     public void SetUpType(int type) => this.type = type;
     //
-    public void PlayerDoesntUseFigner() => playerUseFinger = false;
-    public void PlayerUseFinger() => playerUseFinger = true;
+    public void SetPlayerDoesntUseFigner() => playerUseFinger = false;
+    public void SetPlayerUseFinger() => playerUseFinger = true;
     
     public void SetPositionInArray(Vector2 posInArray) => this.posInArray = posInArray;
     //
-    public void CanBeSelected()
+    public void SetCanBeSelected()
     {
         if ( !isSelectedPuzzle)
             canBeSelected = true;
     }
-    public void CantBeSelected() => canBeSelected = false;
-    public bool IsPuzzleSelected() => isSelectedPuzzle;
-    private void unSelectPuzzle() => isSelectedPuzzle = false;
+    public void SetCantBeSelected() => canBeSelected = false;
+    public bool GetIsPuzzleSelected() => isSelectedPuzzle;
+    public void unSelectPuzzle() 
+    { 
+        isSelectedPuzzle = false;
+        transform.localScale = defaultScale;
+    }
+
     //
     public void GiveNewPosition(Vector2 newPos)
     {     
@@ -97,7 +103,7 @@ public class Puzzle : MonoBehaviour
         // Scale it a bit down
         transform.localScale = new Vector3(downSizeScale, downSizeScale, downSizeScale);
         isSelectedPuzzle = true;
-        grid.PlayerSelectedPuzzle(newLocation);
+        grid.PlayerSelectedPuzzle(newLocation,posInArray);
     }
 
     #region Fade / Unfade puzzle
@@ -142,9 +148,9 @@ public class Puzzle : MonoBehaviour
         }
         else if (playerUseFinger && !canBeSelected && isSelectedPuzzle)
         {
-            // try to unselect Ask grid if we are the latest one
-            
-        }
+            //Debug.Log("We try to unselect puzzle");
+            grid.TryUnselectPuzzle(posInArray);
+        }     
             
     }
 
@@ -152,6 +158,21 @@ public class Puzzle : MonoBehaviour
     {
         if ( !playerUseFinger )
             unFadePuzzle();
+        /*else if (playerUseFinger && !canBeSelected && isSelectedPuzzle)
+        {
+            if (readyToUnselect)
+            {
+                if (grid.TryUnselectPuzzle(posInArray))
+                {
+                    // try to unselect Ask grid if we are the latest one
+                    unSelectPuzzle();
+                    canBeSelected = true;
+
+                }
+            }
+            else
+                readyToUnselect = true;
+        }*/
     }
 
     #endregion

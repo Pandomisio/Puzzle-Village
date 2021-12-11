@@ -50,6 +50,12 @@ public class lineController : MonoBehaviour
 
         
     }
+    public void UnselectLastPuzzle()
+    {
+
+        line.positionCount--;
+        lineCounter--;
+    }
     public void ResetLine()
     {
         lineCounter = 0;

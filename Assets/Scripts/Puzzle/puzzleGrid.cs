@@ -34,6 +34,8 @@ public class puzzleGrid : MonoBehaviour
         puzzles = new GameObject[width, height + 1];
         puzzlesPosition = new Vector2 [width, height + 1];
 
+        puzzleSelectedOrder = new List<Vector2>();
+
         lineController = transform.GetComponentInChildren<lineController>();
 
         InitPuzzleGrid();
@@ -87,9 +89,28 @@ public class puzzleGrid : MonoBehaviour
         return new Vector3(i + .01f,j + .01f, 0);
     }
 
-    public void PlayerSelectedPuzzle(Vector2 selectedPuzzlePosInArray)
+    public void PlayerSelectedPuzzle(Vector2 posInGrid, Vector2 selectedPuzzlePosInArray)
     {
-        lineController.NewPuzzleSelected(selectedPuzzlePosInArray);
+        lineController.NewPuzzleSelected(posInGrid);
+        puzzleSelectedOrder.Add(selectedPuzzlePosInArray);
+    }
+    public void TryUnselectPuzzle(Vector2 s)
+    {
+        if (puzzleSelectedOrder.Count > 1)
+        {
+            Debug.Log(puzzleSelectedOrder[puzzleSelectedOrder.Count - 2] + " do " + s);
+            if (puzzleSelectedOrder[puzzleSelectedOrder.Count - 2].Equals(s))
+            {
+                Debug.Log("TryUnselectPuzzle if true");
+                lineController.UnselectLastPuzzle();
+                Vector2 pos = puzzleSelectedOrder[puzzleSelectedOrder.Count - 1];
+                puzzles[(int)pos.x, (int)pos.y].GetComponent<Puzzle>().unSelectPuzzle();
+                ActivatePuzzlesAround(s);
+                puzzleSelectedOrder.RemoveAt(puzzleSelectedOrder.Count - 1);
+            }
+            else
+                ;//Debug.Log("YOu are the latest puzzle");
+        }
     }
 
     public void FadeTypeOfPuzzle(int type)
@@ -104,7 +125,7 @@ public class puzzleGrid : MonoBehaviour
                 if (puzzleScript != null)
                 {
                     playerUseFinger = true;
-                    puzzleScript.PlayerUseFinger();
+                    puzzleScript.SetPlayerUseFinger();
 
                     if (!puzzleScript.IsSelectedTypePuzzle(type))
                     {
@@ -162,13 +183,13 @@ public class puzzleGrid : MonoBehaviour
                                 {
 
                                     // Debug.Log("Cant be selected:  " + new Vector2(cordX,cordY));
-                                    puzzle.CantBeSelected();
+                                    puzzle.SetCantBeSelected();
                                 }
                                 else
                                 {
                                     if (puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
                                     {
-                                        puzzle.CanBeSelected();
+                                        puzzle.SetCanBeSelected();
                                         // Debug.Log("CAN be selected:  " + new Vector2(cordX, cordY));
                                     }
                                 }
@@ -193,14 +214,14 @@ public class puzzleGrid : MonoBehaviour
                 if (gameObject != null)
                 {
                     Puzzle puzzle = gameObject.GetComponent<Puzzle>();
-                    if (puzzle.IsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
+                    if (puzzle.GetIsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
                     {
                         Destroy(puzzle.gameObject);
                         puzzles[i, j] = null;
                         playerGatheringPuzzleCount++;
                     }
                     else
-                        puzzle.CantBeSelected();
+                        puzzle.SetCantBeSelected();
                 }
             }
         }
@@ -285,6 +306,7 @@ public class puzzleGrid : MonoBehaviour
     private void FingerUp()
     {
         lineController.ResetLine();
+        puzzleSelectedOrder = new List<Vector2>();
 
 
         // Check if player marked some puzzles to gather
@@ -300,15 +322,15 @@ public class puzzleGrid : MonoBehaviour
 
                     // TO FIX
                     Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
-                    if (puzzleScript.IsPuzzleSelected())
+                    if (puzzleScript.GetIsPuzzleSelected())
                     {                    
                         playerGatheringPuzzleCount++;                      
                     }
 
                     if (puzzleScript != null)
                     {
-                        puzzleScript.PlayerDoesntUseFigner();
-                        puzzleScript.CantBeSelected();
+                        puzzleScript.SetPlayerDoesntUseFigner();
+                        puzzleScript.SetCantBeSelected();
                     }
                         
                 }
@@ -325,28 +347,6 @@ public class puzzleGrid : MonoBehaviour
         }
         
     }
-
-    /* Player use finger
-     Used in fadeTypePuzzl not needed?
-    private void FingerDown()
-    {
-        if (playerUseFinger == false)
-        {
-            foreach (GameObject puzzle in puzzles)
-            {
-                if (puzzle != null)
-                {
-                    Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
-
-                    if (puzzleScript != null)
-                        puzzleScript.PlayerUseFinger();
-                }
-            }
-
-            playerUseFinger = true;
-        }
-    }
-    */
     #endregion
 
 
