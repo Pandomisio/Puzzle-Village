@@ -12,8 +12,8 @@ public class Puzzle : MonoBehaviour
     private puzzleGrid grid;
     private bool playerUseFinger;
 
-    public bool isSelectedPuzzle;
-    public bool canBeSelected;
+    private bool isSelectedPuzzle;
+    private bool canBeSelected;
 
     [SerializeField] private float speed = .25f;
     private float journeyLength;
@@ -97,6 +97,7 @@ public class Puzzle : MonoBehaviour
         // Scale it a bit down
         transform.localScale = new Vector3(downSizeScale, downSizeScale, downSizeScale);
         isSelectedPuzzle = true;
+        grid.PlayerSelectedPuzzle(newLocation);
     }
 
     #region Fade / Unfade puzzle
@@ -138,6 +139,11 @@ public class Puzzle : MonoBehaviour
         {
             SelectedPuzzle();
             grid.ActivatePuzzlesAround(posInArray);
+        }
+        else if (playerUseFinger && !canBeSelected && isSelectedPuzzle)
+        {
+            // try to unselect Ask grid if we are the latest one
+            
         }
             
     }

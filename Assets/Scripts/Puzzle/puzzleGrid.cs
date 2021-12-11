@@ -12,9 +12,13 @@ public class puzzleGrid : MonoBehaviour
     // Every location for puzzle
     private Vector2 [,] puzzlesPosition;
 
+    private List<Vector2> puzzleSelectedOrder;
+
     private Vector2 lastSelectedPuzzle;
 
     bool playerUseFinger;
+
+    public lineController lineController;
 
     // TO know what player gathered and how much
     int playerGatheringPuzzleType;
@@ -29,6 +33,9 @@ public class puzzleGrid : MonoBehaviour
         // +1 for respiwng puzzles above map
         puzzles = new GameObject[width, height + 1];
         puzzlesPosition = new Vector2 [width, height + 1];
+
+        lineController = transform.GetComponentInChildren<lineController>();
+
         InitPuzzleGrid();
     }
 
@@ -78,6 +85,11 @@ public class puzzleGrid : MonoBehaviour
         // .01 to be diffrent then Vector3.zero
         //return new Vector3(transform.position.x + i + .01f, transform.position.y + j + .01f, 0);
         return new Vector3(i + .01f,j + .01f, 0);
+    }
+
+    public void PlayerSelectedPuzzle(Vector2 selectedPuzzlePosInArray)
+    {
+        lineController.NewPuzzleSelected(selectedPuzzlePosInArray);
     }
 
     public void FadeTypeOfPuzzle(int type)
@@ -272,7 +284,11 @@ public class puzzleGrid : MonoBehaviour
     #region ComputeUserFingers
     private void FingerUp()
     {
+        lineController.ResetLine();
+
+
         // Check if player marked some puzzles to gather
+
         playerGatheringPuzzleCount = 0;
 
         if (playerUseFinger == true)
