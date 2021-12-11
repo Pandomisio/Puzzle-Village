@@ -11,8 +11,9 @@ public class Puzzle : MonoBehaviour
     
     private puzzleGrid grid;
     private bool playerUseFinger;
-    private bool isSelectedPuzzle;
-    private bool canBeSelected;
+
+    public bool isSelectedPuzzle;
+    public bool canBeSelected;
 
     [SerializeField] private float speed = .25f;
     private float journeyLength;
@@ -37,6 +38,7 @@ public class Puzzle : MonoBehaviour
         if (grid == null)
             Debug.LogError("No puzzleGrid componnent");
     }
+
     private void Update()
     {
         if (!playerUseFinger)

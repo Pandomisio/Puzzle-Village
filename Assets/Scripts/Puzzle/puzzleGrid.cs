@@ -187,6 +187,8 @@ public class puzzleGrid : MonoBehaviour
                         puzzles[i, j] = null;
                         playerGatheringPuzzleCount++;
                     }
+                    else
+                        puzzle.CantBeSelected();
                 }
             }
         }
@@ -220,6 +222,7 @@ public class puzzleGrid : MonoBehaviour
                             puzzles[i, j] = fallingPuzzle;
 
                             puzzles[i, j].GetComponent<Puzzle>().GiveNewPosition(puzzlesPosition[i, j]);
+                            puzzles[i, j].GetComponent<Puzzle>().SetPositionInArray(new Vector2(i, j));
                             //fallingPuzzle.transform.position = puzzlesPosition[i,j];
                             break;
                         }
@@ -257,9 +260,8 @@ public class puzzleGrid : MonoBehaviour
                     puzzles[i, j].transform.parent = transform;
                     Puzzle puzzle = puzzles[i, j].GetComponent<Puzzle>();
                     puzzle.SetUpType(getPuzzleType);
-                    puzzle.GiveNewPosition(vector3);               
-                   
-
+                    puzzle.GiveNewPosition(vector3);
+                    puzzle.SetPositionInArray(new Vector2(i,j));
                 }
             }
         }
@@ -279,6 +281,8 @@ public class puzzleGrid : MonoBehaviour
             {
                 if (puzzle != null)
                 {
+
+                    // TO FIX
                     Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
                     if (puzzleScript.IsPuzzleSelected())
                     {                    
