@@ -12,8 +12,9 @@ public class puzzleGrid : MonoBehaviour
     // Every location for puzzle
     private Vector2 [,] puzzlesPosition;
 
+    private Vector2 lastSelectedPuzzle;
+
     bool playerUseFinger;
-    bool destroyedSomePuzzles;
 
     // TO know what player gathered and how much
     int playerGatheringPuzzleType;
@@ -33,9 +34,10 @@ public class puzzleGrid : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        /*if (Input.GetKeyDown(KeyCode.Mouse0))
             FingerDown();
-        else if (Input.GetKeyUp(KeyCode.Mouse0))
+        else */
+        if (Input.GetKeyUp(KeyCode.Mouse0))
             FingerUp();
 
     }
@@ -54,7 +56,8 @@ public class puzzleGrid : MonoBehaviour
                     // Init a prefab and make him a child
                     puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
                     puzzles[i, j].transform.parent = transform;
-                    puzzles[i, j].GetComponent<Puzzle>().SetUpType(getPuzzleType);                  
+                    puzzles[i, j].GetComponent<Puzzle>().SetUpType(getPuzzleType);
+                    puzzles[i, j].GetComponent<Puzzle>().SetPositionInArray(new Vector2(i, j));
                 }
 
                 puzzlesPosition[i, j] = new Vector2(vector3.x, vector3.y);
@@ -69,6 +72,7 @@ public class puzzleGrid : MonoBehaviour
         else
             return puzzlesTypes.puzzleFarm.wheat;
     }
+
     private Vector3 PositionForPuzzle(float i , float j)
     {
         // .01 to be diffrent then Vector3.zero
@@ -97,6 +101,73 @@ public class puzzleGrid : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    // * * *
+    // * x *
+    // * * *
+    // x - pos
+    // * - do odblokowania
+
+    public void ActivatePuzzlesAround(Vector2 pos)
+    {
+        for ( int x = 0; x < 2; x++ )
+        {          
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    // x = 0 resetujemy poprzednia pozycje
+                    // x = 1 aktywujemy nastepne miejsca
+
+                    int cordX, cordY;
+                    if (x == 0)
+                    {
+                        cordX = (int)lastSelectedPuzzle.x - i;
+                        cordY = (int)lastSelectedPuzzle.y - j;
+                    }
+                    else
+                    {
+                        cordX = (int)pos.x - i;
+                        cordY = (int)pos.y - j;
+                    }
+                    
+
+                    if ((cordX > -1 && cordX < width) && (cordY > -1 && cordY < height))
+                    {
+                        GameObject gameObject = puzzles[cordX, cordY];
+
+                        if (gameObject != null)
+                        {
+                            Puzzle puzzle = gameObject.GetComponent<Puzzle>();
+
+                            if (puzzle != null)
+                            {
+                                // x = 0 resetujemy poprzednia pozycje
+                                // x = 1 aktywujemy nastepne miejsca
+                                if (x == 0)
+                                {
+
+                                    // Debug.Log("Cant be selected:  " + new Vector2(cordX,cordY));
+                                    puzzle.CantBeSelected();
+                                }
+                                else
+                                {
+                                    if (puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
+                                    {
+                                        puzzle.CanBeSelected();
+                                        // Debug.Log("CAN be selected:  " + new Vector2(cordX, cordY));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }        
+        }
+
+        lastSelectedPuzzle = pos;
     }
 
     private void DestroyPuzzlesInGrid()
@@ -178,7 +249,6 @@ public class puzzleGrid : MonoBehaviour
 
                     int getPuzzleType = WhatPuzzleToGrid();
                     Vector3 vector3 = new Vector3(puzzlesPosition[i, j].x, puzzlesPosition[i, j].y, 0f);
-
                     
                     // Init a prefab and make him a child
                     puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], puzzlesPosition[i, height], transform.rotation);
@@ -216,7 +286,11 @@ public class puzzleGrid : MonoBehaviour
                     }
 
                     if (puzzleScript != null)
+                    {
                         puzzleScript.PlayerDoesntUseFigner();
+                        puzzleScript.CantBeSelected();
+                    }
+                        
                 }
             }
 
@@ -232,12 +306,8 @@ public class puzzleGrid : MonoBehaviour
         
     }
 
-    
-
-    
-
-    // Player use finger
-    // Used in fadeTypePuzzl not needed?
+    /* Player use finger
+     Used in fadeTypePuzzl not needed?
     private void FingerDown()
     {
         if (playerUseFinger == false)
@@ -256,6 +326,7 @@ public class puzzleGrid : MonoBehaviour
             playerUseFinger = true;
         }
     }
+    */
     #endregion
 
 

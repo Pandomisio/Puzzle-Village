@@ -12,12 +12,15 @@ public class Puzzle : MonoBehaviour
     private puzzleGrid grid;
     private bool playerUseFinger;
     private bool isSelectedPuzzle;
+    private bool canBeSelected;
 
     [SerializeField] private float speed = .25f;
     private float journeyLength;
     private float startTime;
 
-    public Vector2 newLocation;
+    private Vector2 newLocation;
+    private Vector2 posInArray;
+    
     
     private void Awake()
     {
@@ -27,6 +30,7 @@ public class Puzzle : MonoBehaviour
     private void Start()
     {
         defaultScale = transform.localScale;
+        playerUseFinger = false;
         //newLocation = transform.localPosition
 
         grid = GetComponentInParent<puzzleGrid>();
@@ -52,15 +56,24 @@ public class Puzzle : MonoBehaviour
             // Set our position as a fraction of the distance between the markers.
             transform.position = Vector3.Lerp(transform.localPosition, newLocation, fractionOfJourney);
         }
-
-
     }
 
     public void SetUpType(int type) => this.type = type;
+    //
     public void PlayerDoesntUseFigner() => playerUseFinger = false;
     public void PlayerUseFinger() => playerUseFinger = true;
+    
+    public void SetPositionInArray(Vector2 posInArray) => this.posInArray = posInArray;
+    //
+    public void CanBeSelected()
+    {
+        if ( !isSelectedPuzzle)
+            canBeSelected = true;
+    }
+    public void CantBeSelected() => canBeSelected = false;
     public bool IsPuzzleSelected() => isSelectedPuzzle;
     private void unSelectPuzzle() => isSelectedPuzzle = false;
+    //
     public void GiveNewPosition(Vector2 newPos)
     {     
         newLocation = newPos;
@@ -83,6 +96,8 @@ public class Puzzle : MonoBehaviour
         transform.localScale = new Vector3(downSizeScale, downSizeScale, downSizeScale);
         isSelectedPuzzle = true;
     }
+
+    #region Fade / Unfade puzzle
     public void FadePuzzle()
     {
         // Transparency
@@ -105,16 +120,24 @@ public class Puzzle : MonoBehaviour
         // Enable collider
         GetComponentInChildren<Collider2D>().enabled = true;
     }
+    #endregion
 
+    #region OnMouse Actions
     private void OnMouseDown()
     {
         grid.FadeTypeOfPuzzle(type);
+        grid.ActivatePuzzlesAround(posInArray);
+        //this.canBeSelected = true;
     }
 
     private void OnMouseOver()
     {
-        if (playerUseFinger)
+        if (playerUseFinger && canBeSelected && !isSelectedPuzzle)
+        {
             SelectedPuzzle();
+            grid.ActivatePuzzlesAround(posInArray);
+        }
+            
     }
 
     private void OnMouseExit()
@@ -123,6 +146,7 @@ public class Puzzle : MonoBehaviour
             unFadePuzzle();
     }
 
-   
+    #endregion
+
 
 }
