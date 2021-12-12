@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "emulator-5554",
     "m_SelectedPackage": {
-        "deviceId": "emulator-5554",
-        "name": "com.DefaultCompany.com.unity.template.mobile2D",
-        "processId": 5539,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -30,12 +30,36 @@
             "deviceId": "emulator-5554",
             "name": "com.google.android.apps.nexuslauncher",
             "processId": 2397,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 5539,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.google.android.apps.nexuslauncher",
+            "processId": 2404,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 7317,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 5618,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 5673,
             "exited": false
         }
     ],
