@@ -5,18 +5,20 @@ using UnityEngine;
 public class puzzleGrid : MonoBehaviour
 {
     [SerializeField] int minPuzzleToGather = 3;
+    [SerializeField] float offset = 1.2f;
     // Our prefabs
-    public GameObject[] puzzlePrefabs;
+    // public GameObject[] puzzlePrefabs;
+
     // Our puzzles
     public GameObject[,] puzzles;
     // Every location for puzzle
     private Vector2 [,] puzzlesPosition;
 
     private List<Vector2> puzzleSelectedOrder;
-
     private Vector2 lastSelectedPuzzle;
 
-    bool playerUseFinger;
+    // We set it when player start from puzzle
+    private bool playerUseFinger;
 
     public lineController lineController;
 
@@ -24,18 +26,16 @@ public class puzzleGrid : MonoBehaviour
     int playerGatheringPuzzleType;
     int playerGatheringPuzzleCount;
 
-    // Todo Another class for chances Singleton i guess
-    [SerializeField] private Dictionary <int,float> puzzleChances;
-
     [SerializeField] private int width, height;
     public void Start()
     {
-        // +1 for respiwng puzzles above map
+        // +1 for creating puzzles above map
         puzzles = new GameObject[width, height + 1];
         puzzlesPosition = new Vector2 [width, height + 1];
 
         puzzleSelectedOrder = new List<Vector2>();
 
+        // Add singleton
         lineController = transform.GetComponentInChildren<lineController>();
 
         InitPuzzleGrid();
@@ -43,9 +43,6 @@ public class puzzleGrid : MonoBehaviour
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.Mouse0))
-            FingerDown();
-        else */
         if (Input.GetKeyUp(KeyCode.Mouse0))
             FingerUp();
 
@@ -56,17 +53,28 @@ public class puzzleGrid : MonoBehaviour
        {
             for ( int j = 0; j < height + 1; j++ )
             {
-                int getPuzzleType = WhatPuzzleToGrid();
+                /*int getPuzzleType = WhatPuzzleToGrid();
                 Vector3 childScale = puzzlePrefabs[getPuzzleType].transform.localScale;
-                Vector3 vector3 = PositionForPuzzle(i + (i * childScale.x), j + (j * childScale.y));
+                Vector3 vector3 = PositionForPuzzle(i + (i * childScale.x), j + (j * childScale.y));*/
+
+                GameObject newPuzzle = PuzzleDictionary.Instance.GetPuzzle();
+                Vector3 childScale = newPuzzle.transform.localScale;
+                Vector3 vector3 = PositionForPuzzle(i + (i * childScale.x), j + (j * childScale.y)) ;
 
                 if ( j < height)
                 {
                     // Init a prefab and make him a child
-                    puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
+                    /*puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
                     puzzles[i, j].transform.parent = transform;
                     puzzles[i, j].GetComponent<Puzzle>().SetUpType(getPuzzleType);
+                    puzzles[i, j].GetComponent<Puzzle>().SetPositionInArray(new Vector2(i, j));*/
+
+                    
+                    puzzles[i, j] = Instantiate(newPuzzle, vector3, transform.rotation);
+                    puzzles[i, j].transform.parent = transform;
+                    puzzles[i, j].GetComponent<Puzzle>().SetUpType(PuzzleDictionary.Instance.GetPuzzleType());
                     puzzles[i, j].GetComponent<Puzzle>().SetPositionInArray(new Vector2(i, j));
+
                 }
 
                 puzzlesPosition[i, j] = new Vector2(vector3.x, vector3.y);
@@ -86,7 +94,7 @@ public class puzzleGrid : MonoBehaviour
     {
         // .01 to be diffrent then Vector3.zero
         //return new Vector3(transform.position.x + i + .01f, transform.position.y + j + .01f, 0);
-        return new Vector3(i + .01f,j + .01f, 0);
+        return new Vector3(i + .01f,j + .01f, 0) * offset;
     }
 
     public void PlayerSelectedPuzzle(Vector2 posInGrid, Vector2 selectedPuzzlePosInArray)
@@ -98,18 +106,20 @@ public class puzzleGrid : MonoBehaviour
     {
         if (puzzleSelectedOrder.Count > 1)
         {
-            Debug.Log(puzzleSelectedOrder[puzzleSelectedOrder.Count - 2] + " do " + s);
+            //Debug.Log(puzzleSelectedOrder[puzzleSelectedOrder.Count - 2] + " do " + s);
             if (puzzleSelectedOrder[puzzleSelectedOrder.Count - 2].Equals(s))
             {
-                Debug.Log("TryUnselectPuzzle if true");
+                //Debug.Log("TryUnselectPuzzle if true");
                 lineController.UnselectLastPuzzle();
                 Vector2 pos = puzzleSelectedOrder[puzzleSelectedOrder.Count - 1];
                 puzzles[(int)pos.x, (int)pos.y].GetComponent<Puzzle>().unSelectPuzzle();
                 ActivatePuzzlesAround(s);
                 puzzleSelectedOrder.RemoveAt(puzzleSelectedOrder.Count - 1);
             }
+            /*
             else
-                ;//Debug.Log("YOu are the latest puzzle");
+                Debug.Log("YOu are the latest puzzle");
+            */
         }
     }
 
@@ -151,14 +161,14 @@ public class puzzleGrid : MonoBehaviour
             {
                 for (int j = -1; j < 2; j++)
                 {
-                    // x = 0 resetujemy poprzednia pozycje
+                    // x = 0 resetujemy poprzednie pozycje
                     // x = 1 aktywujemy nastepne miejsca
 
                     int cordX, cordY;
                     if (x == 0)
                     {
                         cordX = (int)lastSelectedPuzzle.x - i;
-                        cordY = (int)lastSelectedPuzzle.y - j;
+                        cordY = (int)lastSelectedPuzzle.y - j;          
                     }
                     else
                     {
@@ -283,7 +293,7 @@ public class puzzleGrid : MonoBehaviour
                 {
                     debugDestroyedPuzzles++;
 
-                    int getPuzzleType = WhatPuzzleToGrid();
+                    /*int getPuzzleType = WhatPuzzleToGrid();
                     Vector3 vector3 = new Vector3(puzzlesPosition[i, j].x, puzzlesPosition[i, j].y, 0f);
                     
                     // Init a prefab and make him a child
@@ -294,7 +304,20 @@ public class puzzleGrid : MonoBehaviour
                     Puzzle puzzle = puzzles[i, j].GetComponent<Puzzle>();
                     puzzle.SetUpType(getPuzzleType);
                     puzzle.GiveNewPosition(vector3);
-                    puzzle.SetPositionInArray(new Vector2(i,j));
+                    puzzle.SetPositionInArray(new Vector2(i,j));*/
+
+
+                    GameObject newPuzzle = PuzzleDictionary.Instance.GetPuzzle();
+                    Vector3 childScale = newPuzzle.transform.localScale;
+                    Vector3 vector3 = PositionForPuzzle(i + (i * childScale.x), j + (j * childScale.y));
+
+                    puzzles[i, j] = Instantiate(newPuzzle, puzzlesPosition[i, height], transform.rotation);
+
+                    puzzles[i, j].transform.parent = transform;
+                    Puzzle puzzle = puzzles[i, j].GetComponent<Puzzle>();
+                    puzzle.SetUpType(PuzzleDictionary.Instance.GetPuzzleType());
+                    puzzle.GiveNewPosition(vector3);
+                    puzzle.SetPositionInArray(new Vector2(i, j));
                 }
             }
         }
@@ -305,32 +328,30 @@ public class puzzleGrid : MonoBehaviour
     #region ComputeUserFingers
     private void FingerUp()
     {
-        lineController.ResetLine();
-        puzzleSelectedOrder = new List<Vector2>();
-
-
-        // Check if player marked some puzzles to gather
-
         playerGatheringPuzzleCount = 0;
 
         if (playerUseFinger == true)
         {
+            // Delete actual line
+            lineController.ResetLine();
+            // Reset collecting order
+            puzzleSelectedOrder = new List<Vector2>();
+
             foreach (GameObject puzzle in puzzles)
             {
                 if (puzzle != null)
                 {
 
-                    // TO FIX
                     Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
-                    if (puzzleScript.GetIsPuzzleSelected())
-                    {                    
-                        playerGatheringPuzzleCount++;                      
-                    }
-
                     if (puzzleScript != null)
                     {
+                        if (puzzleScript.GetIsPuzzleSelected())
+                        {                    
+                            playerGatheringPuzzleCount++;                      
+                        }
+                        
                         puzzleScript.SetPlayerDoesntUseFigner();
-                        puzzleScript.SetCantBeSelected();
+                        //puzzleScript.SetCantBeSelected();
                     }
                         
                 }

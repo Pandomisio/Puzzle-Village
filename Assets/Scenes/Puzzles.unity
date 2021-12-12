@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 191250096}
   - component: {fileID: 191250095}
+  - component: {fileID: 191250097}
   m_Layer: 0
   m_Name: PuzzleGrid
   m_TagString: Untagged
@@ -153,14 +154,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minPuzzleToGather: 3
-  puzzlePrefabs:
-  - {fileID: 1526690735436409882, guid: 09b43f128d317c1419183127ef2e3864, type: 3}
-  - {fileID: 3484720283281838712, guid: 262a3bb88d2a15f4e861b24138a3e877, type: 3}
-  - {fileID: 1526690735436409882, guid: 09b43f128d317c1419183127ef2e3864, type: 3}
-  - {fileID: 1526690735436409882, guid: 09b43f128d317c1419183127ef2e3864, type: 3}
-  - {fileID: 1526690735436409882, guid: 09b43f128d317c1419183127ef2e3864, type: 3}
+  offset: 1.2
   lineController: {fileID: 0}
-  width: 6
+  width: 8
   height: 5
 --- !u!4 &191250096
 Transform:
@@ -177,6 +173,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &191250097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191250094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f85a18c07275c4499d3b6251070aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 3484720283281838712, guid: 262a3bb88d2a15f4e861b24138a3e877, type: 3}
+  - {fileID: 1526690735436409882, guid: 09b43f128d317c1419183127ef2e3864, type: 3}
+  - {fileID: 4310222508291353907, guid: 2504fc836e966c242a4af00450f49a76, type: 3}
+  - {fileID: 3991442314849410140, guid: 1643c545a26c46e439542da2f58442d9, type: 3}
+  - {fileID: 2347832810301444814, guid: f31fb29ecaed23e498e2db948661a938, type: 3}
+  - {fileID: 5670850157510303922, guid: d32e580123fcd5a4db7ab73b5f2951e4, type: 3}
 --- !u!1 &275778904
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +269,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 275778904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -10}
+  m_LocalPosition: {x: 3.7, y: 4, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

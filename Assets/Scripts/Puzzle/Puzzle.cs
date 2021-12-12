@@ -14,13 +14,15 @@ public class Puzzle : MonoBehaviour
 
     private bool isSelectedPuzzle;
     private bool canBeSelected;
-    private bool readyToUnselect = false;
 
+    // Variables for lerp
     [SerializeField] private float speed = .25f;
     private float journeyLength;
     private float startTime;
 
+    // Position to lerp
     private Vector2 newLocation;
+    // x,y Pos in grid 
     private Vector2 posInArray;
     
     
@@ -33,7 +35,6 @@ public class Puzzle : MonoBehaviour
     {
         defaultScale = transform.localScale;
         playerUseFinger = false;
-        //newLocation = transform.localPosition
 
         grid = GetComponentInParent<puzzleGrid>();
         if (grid == null)
@@ -46,6 +47,7 @@ public class Puzzle : MonoBehaviour
         {
             unFadePuzzle();
             unSelectPuzzle();
+            //SetCanBeSelected();
         }
         
         if (newLocation != Vector2.zero)
@@ -56,8 +58,12 @@ public class Puzzle : MonoBehaviour
             // Fraction of journey completed equals current distance divided by total distance.
             float fractionOfJourney = distCovered / journeyLength;
 
+            Vector3 positionToLerp = Vector3.Lerp(transform.localPosition, newLocation, fractionOfJourney);
+
             // Set our position as a fraction of the distance between the markers.
-            transform.position = Vector3.Lerp(transform.localPosition, newLocation, fractionOfJourney);
+            // After awake positionToLerp is Nan
+            if (! float.IsNaN(positionToLerp.x) )           
+                transform.position = positionToLerp;             
         }
     }
 
@@ -114,7 +120,7 @@ public class Puzzle : MonoBehaviour
         color.a = .6f;
         GetComponentInChildren<SpriteRenderer>().color = color;
         // Scale it a bit down
-        transform.localScale = new Vector3(downSizeScale, downSizeScale, downSizeScale);
+        // transform.localScale = new Vector3(downSizeScale, downSizeScale, downSizeScale);
         // Disable collider
         GetComponentInChildren<Collider2D>().enabled = false;
     }
@@ -125,13 +131,15 @@ public class Puzzle : MonoBehaviour
         color.a = 1f;
         GetComponentInChildren<SpriteRenderer>().color = color;
         // Bring scaling back
-        transform.localScale = defaultScale;
+        // transform.localScale = defaultScale;
         // Enable collider
         GetComponentInChildren<Collider2D>().enabled = true;
     }
     #endregion
 
-    #region OnMouse Actions
+    #region OnMouse/OnTouch Actions
+
+//#if UNITY_STANDALONE
     private void OnMouseDown()
     {
         grid.FadeTypeOfPuzzle(type);
@@ -158,22 +166,40 @@ public class Puzzle : MonoBehaviour
     {
         if ( !playerUseFinger )
             unFadePuzzle();
-        /*else if (playerUseFinger && !canBeSelected && isSelectedPuzzle)
-        {
-            if (readyToUnselect)
-            {
-                if (grid.TryUnselectPuzzle(posInArray))
-                {
-                    // try to unselect Ask grid if we are the latest one
-                    unSelectPuzzle();
-                    canBeSelected = true;
-
-                }
-            }
-            else
-                readyToUnselect = true;
-        }*/
     }
+//#endif
+
+#if UNITY_ANDROID
+
+    /*private void OnMouseDown()
+    {
+        grid.FadeTypeOfPuzzle(type);
+        grid.ActivatePuzzlesAround(posInArray);
+        //this.canBeSelected = true;
+    }
+
+    private void OnMouseOver()
+    {
+        if (playerUseFinger && canBeSelected && !isSelectedPuzzle)
+        {
+            SelectedPuzzle();
+            grid.ActivatePuzzlesAround(posInArray);
+        }
+        else if (playerUseFinger && !canBeSelected && isSelectedPuzzle)
+        {
+            //Debug.Log("We try to unselect puzzle");
+            grid.TryUnselectPuzzle(posInArray);
+        }
+
+    }
+
+    private void OnMouseExit()
+    {
+        if (!playerUseFinger)
+            unFadePuzzle();
+    }*/
+
+#endif
 
     #endregion
 

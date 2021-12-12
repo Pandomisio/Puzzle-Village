@@ -13,7 +13,6 @@ public class lineController : MonoBehaviour
     private List<Vector2> puzzleSelectedOrder;
     private Vector2 posToCorrect;
 
-    private bool FirstUse = true;
 
     private void Start()
     {
@@ -23,7 +22,7 @@ public class lineController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // Follow the player finger?
     }
 
 
@@ -38,28 +37,29 @@ public class lineController : MonoBehaviour
 
         line.SetPosition(lineCounter, newPos);
 
-        Debug.Log("New line breakpoint: " + lineCounter + " On pos: " + selectedPuzzlePosInArray);
+        //Debug.Log("New line breakpoint: " + lineCounter + " On pos: " + selectedPuzzlePosInArray);
 
         lineCounter++;
             
         if (line.loop == true)
         {
             line.loop = false;
-            Debug.Log("line.loop value: " + line.loop);
+            //Debug.Log("line.loop value: " + line.loop);
         }
 
         
     }
     public void UnselectLastPuzzle()
     {
-
         line.positionCount--;
         lineCounter--;
     }
     public void ResetLine()
     {
         lineCounter = 0;
-        Destroy(line.gameObject);
+
+        if (line != null)
+            Destroy(line.gameObject);
     }
 
     private void NewLine(Vector2 pos)

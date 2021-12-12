@@ -1,13 +1,44 @@
 {
-    "m_SelectedDeviceId": "",
+    "m_SelectedDeviceId": "emulator-5554",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "emulator-5554",
+        "name": "com.DefaultCompany.com.unity.template.mobile2D",
+        "processId": 5539,
         "exited": false
     },
     "m_SelectedPriority": 0,
-    "m_KnownPackagesForSerialization": [],
+    "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 16436,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.google.android.apps.nexuslauncher",
+            "processId": 2697,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 6132,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.google.android.apps.nexuslauncher",
+            "processId": 2397,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 5539,
+            "exited": false
+        }
+    ],
     "m_Tags": {
         "m_Entries": [
             {
@@ -41,9 +72,20 @@
         ]
     },
     "m_MemoryViewerState": {
-        "MemoryWindowHeight": 0.0,
-        "MemoryWindowWidth": 0.0,
-        "MemoryTypeEnabled": [],
+        "MemoryWindowHeight": 300.0,
+        "MemoryWindowWidth": 170.0,
+        "MemoryTypeEnabled": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+        ],
         "MemoryGroup": 2,
         "Behavior": 0
     },
