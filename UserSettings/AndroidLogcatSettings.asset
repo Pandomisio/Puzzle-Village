@@ -1,43 +1,13 @@
 {
-    "m_SelectedDeviceId": "emulator-5554",
+    "m_SelectedDeviceId": "JQYNW19125007400",
     "m_SelectedPackage": {
-        "deviceId": "emulator-5554",
-        "name": "com.DefaultCompany.com.unity.template.mobile2D",
-        "processId": 7192,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 7317,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 5618,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 5673,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 5601,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.google.android.apps.nexuslauncher",
-            "processId": 2408,
-            "exited": false
-        },
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
@@ -48,6 +18,78 @@
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 7192,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.google.android.apps.nexuslauncher",
+            "processId": 2418,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 5999,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 6538,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 7369,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 8026,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 8750,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 5838,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 5568,
+            "exited": false
+        },
+        {
+            "deviceId": "JQYNW19125007400",
+            "name": "com.unity3d.genericremote",
+            "processId": 28450,
+            "exited": true
+        },
+        {
+            "deviceId": "JQYNW19125007400",
+            "name": "com.huawei.android.launcher",
+            "processId": 2015,
+            "exited": false
+        },
+        {
+            "deviceId": "JQYNW19125007400",
+            "name": "com.unity3d.genericremote",
+            "processId": 5705,
+            "exited": false
+        },
+        {
+            "deviceId": "JQYNW19125007400",
+            "name": "com.android.settings",
+            "processId": 19283,
             "exited": false
         }
     ],

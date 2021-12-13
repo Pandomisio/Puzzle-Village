@@ -139,7 +139,7 @@ public class Puzzle : MonoBehaviour
 
     #region OnMouse/OnTouch Actions
 
-//#if UNITY_STANDALONE
+#if UNITY_STANDALONE
     private void OnMouseDown()
     {
         grid.FadeTypeOfPuzzle(type);
@@ -167,18 +167,18 @@ public class Puzzle : MonoBehaviour
         if ( !playerUseFinger )
             unFadePuzzle();
     }
-//#endif
+#endif
 
 #if UNITY_ANDROID
 
-    /*private void OnMouseDown()
+    public void OnClick()
     {
         grid.FadeTypeOfPuzzle(type);
         grid.ActivatePuzzlesAround(posInArray);
         //this.canBeSelected = true;
     }
 
-    private void OnMouseOver()
+    public void OnOver()
     {
         if (playerUseFinger && canBeSelected && !isSelectedPuzzle)
         {
@@ -193,11 +193,11 @@ public class Puzzle : MonoBehaviour
 
     }
 
-    private void OnMouseExit()
+    public void OnExit()
     {
         if (!playerUseFinger)
             unFadePuzzle();
-    }*/
+    }
 
 #endif
 

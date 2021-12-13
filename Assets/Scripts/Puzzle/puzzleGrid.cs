@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class puzzleGrid : MonoBehaviour
 {
+    public static puzzleGrid Instance;
+
     [SerializeField] int minPuzzleToGather = 3;
     [SerializeField] float offset = 1.2f;
     // Our prefabs
@@ -20,13 +22,19 @@ public class puzzleGrid : MonoBehaviour
     // We set it when player start from puzzle
     private bool playerUseFinger;
 
-    public lineController lineController;
+    private lineController lineController;
 
     // TO know what player gathered and how much
     int playerGatheringPuzzleType;
     int playerGatheringPuzzleCount;
 
     [SerializeField] private int width, height;
+
+    public void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
     public void Start()
     {
         // +1 for creating puzzles above map
@@ -326,7 +334,7 @@ public class puzzleGrid : MonoBehaviour
 
     //Player dont use finger
     #region ComputeUserFingers
-    private void FingerUp()
+    public void FingerUp()
     {
         playerGatheringPuzzleCount = 0;
 
