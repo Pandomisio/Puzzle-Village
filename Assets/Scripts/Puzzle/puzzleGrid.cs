@@ -378,6 +378,31 @@ public class puzzleGrid : MonoBehaviour
     }
     #endregion
 
+    public void UsedTool( int idOfTool)
+    {
+        List<int> TypesToGather = PuzzleTools.Instance.WhatToolBreak(idOfTool);
+        if (TypesToGather.Count > 0)
+        {
+            foreach (GameObject puzzle in puzzles)
+            {
+                if (puzzle != null)
+                {
+                    Puzzle puzzleComp = puzzle.GetComponent<Puzzle>();
+                    if (puzzleComp != null)
+                    {
+                        foreach (int type in TypesToGather)
+                        {
+                            if (puzzleComp.IsSelectedTypePuzzle(type))
+                            {
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 
     public abstract class puzzlesGamesTypes

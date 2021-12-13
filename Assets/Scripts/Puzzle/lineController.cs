@@ -71,8 +71,8 @@ public class lineController : MonoBehaviour
         line.material = lineMaterial;
         
         line.positionCount = 0;
-        line.startWidth = 0.05f;
-        line.endWidth = 0.05f;
+        line.startWidth = 0.5f;
+        line.endWidth = 0.5f;
         line.useWorldSpace = false;
         line.numCapVertices = 50;
         
