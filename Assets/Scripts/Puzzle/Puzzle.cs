@@ -50,7 +50,7 @@ public class Puzzle : MonoBehaviour
             //SetCanBeSelected();
         }
         
-        if (newLocation != Vector2.zero)
+        if (newLocation != Vector2.zero && transform.position != new Vector3(newLocation.x,newLocation.y,0f))
         {      
             // Distance moved equals elapsed time times speed..
             float distCovered = (Time.time - startTime) * speed;
