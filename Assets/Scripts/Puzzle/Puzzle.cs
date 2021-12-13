@@ -9,7 +9,7 @@ public class Puzzle : MonoBehaviour
     
     private Vector3 defaultScale;
     
-    private puzzleGrid grid;
+    //private puzzleGrid grid;
     private bool playerUseFinger;
 
     private bool isSelectedPuzzle;
@@ -36,9 +36,9 @@ public class Puzzle : MonoBehaviour
         defaultScale = transform.localScale;
         playerUseFinger = false;
 
-        grid = GetComponentInParent<puzzleGrid>();
+/*        grid = GetComponentInParent<puzzleGrid>();
         if (grid == null)
-            Debug.LogError("No puzzleGrid componnent");
+            Debug.LogError("No puzzleGrid componnent");*/
     }
 
     private void Update()
@@ -109,7 +109,8 @@ public class Puzzle : MonoBehaviour
         // Scale it a bit down
         transform.localScale = new Vector3(downSizeScale, downSizeScale, downSizeScale);
         isSelectedPuzzle = true;
-        grid.PlayerSelectedPuzzle(newLocation,posInArray);
+        puzzleManager.Instance.PlayerSelectedPuzzle(newLocation,posInArray);
+        //grid.PlayerSelectedPuzzle(newLocation, posInArray);
     }
 
     #region Fade / Unfade puzzle
@@ -173,8 +174,10 @@ public class Puzzle : MonoBehaviour
 
     public void OnClick()
     {
-        grid.FadeTypeOfPuzzle(type);
-        grid.ActivatePuzzlesAround(posInArray);
+        /*grid.FadeTypeOfPuzzle(type);
+        grid.ActivatePuzzlesAround(posInArray);*/
+        puzzleManager.Instance.FadeTypeOfPuzzle(type);
+        puzzleManager.Instance.ActivatePuzzlesAround(posInArray);
         //this.canBeSelected = true;
     }
 
@@ -183,12 +186,14 @@ public class Puzzle : MonoBehaviour
         if (playerUseFinger && canBeSelected && !isSelectedPuzzle)
         {
             SelectedPuzzle();
-            grid.ActivatePuzzlesAround(posInArray);
+            puzzleManager.Instance.ActivatePuzzlesAround(posInArray);
+            //grid.ActivatePuzzlesAround(posInArray);
         }
         else if (playerUseFinger && !canBeSelected && isSelectedPuzzle)
         {
             //Debug.Log("We try to unselect puzzle");
-            grid.TryUnselectPuzzle(posInArray);
+            //grid.TryUnselectPuzzle(posInArray);
+            puzzleManager.Instance.TryUnselectPuzzle(posInArray);
         }
 
     }

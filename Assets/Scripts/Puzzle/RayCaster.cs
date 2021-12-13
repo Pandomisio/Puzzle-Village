@@ -6,6 +6,8 @@ public class RayCaster : MonoBehaviour
 {
 
     private bool firstTouch, keepTouching, endTouching;
+
+    private Vector2 previousTouch;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,7 @@ public class RayCaster : MonoBehaviour
         {
             foreach (Touch touch in Input.touches)
             {
+                
                 if (touch.phase == TouchPhase.Began)
                 {
                     if (firstTouch == false)
@@ -34,10 +37,10 @@ public class RayCaster : MonoBehaviour
                 else if (touch.phase == TouchPhase.Moved)
                 {
                     
-                        Debug.Log("Touch moved");
-                        keepTouching = true;
-                        firstTouch = false;
-                        CastARay(touch);
+                    Debug.Log("Touch moved");
+                    keepTouching = true;
+                    firstTouch = false;
+                    CastARay(touch);
                     
                 }
                 else if (touch.phase == TouchPhase.Ended)
@@ -56,24 +59,27 @@ public class RayCaster : MonoBehaviour
                 }
                 else if (touch.phase == TouchPhase.Canceled)
                 {
-                    if (!firstTouch && keepTouching)
-                    {
-                        //Debug.Log("Touch canceled");
-                        keepTouching = false;
-                        endTouching = true;
-                        //RayCast(Input.GetTouch(i));
-                    }
+
+                    //Debug.Log("Touch canceled");
+                    firstTouch = false;
+                    keepTouching = false;
+                    endTouching = false;
+                    //RayCast(Input.GetTouch(i));                 
                 }
-            }
-            
+            }           
         }
     }
 
     private void CastARay (Touch touch)
     {
-        Vector2 test = Camera.main.ScreenToWorldPoint(touch.position);
 
-        RaycastHit2D hit = Physics2D.Raycast(test,touch.position);
+        Vector2 test = Camera.main.ScreenToWorldPoint(touch.position);
+        Vector2 direction = test - previousTouch;
+        previousTouch = test;        
+
+        // Wrong direction TO FIX 
+        // to test direction or touch.position
+        RaycastHit2D hit = Physics2D.Raycast(test, direction);
 
         if (hit.collider)
         {
@@ -117,7 +123,7 @@ public class RayCaster : MonoBehaviour
            
         else if (endTouching)
         {
-            puzzleGrid.Instance.FingerUp();
+            puzzleManager.Instance.FingerUp();
             Debug.Log("Grid FingerUp");
         }           
     }
