@@ -120,18 +120,18 @@ public class RayCaster : MonoBehaviour
         if (firstTouch)
         {
             puzzle.OnClick();
-            //Debug.Log("Puzzle OnClick");
+            Debug.Log("Puzzle OnClick");
         }            
         else if (keepTouching)
         {
             puzzle.OnOver();
-            //Debug.Log("Puzzle OnOver");
+            Debug.Log("Puzzle OnOver");
         }
            
         else if (endTouching)
         {
             puzzleManager.Instance.FingerUp();
-            //Debug.Log("Grid FingerUp");
+            Debug.Log("Grid FingerUp");
         }           
     }
 }

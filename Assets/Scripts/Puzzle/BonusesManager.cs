@@ -12,8 +12,6 @@ public class BonusesManager : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
-
-        buildForester = true;
     }
 
 
@@ -27,7 +25,6 @@ public class BonusesManager : MonoBehaviour
                     List<int> typesToMix = new List<int>();
                     if (buildForester)
                     {
-                        Debug.Log("Forester");
                         typesToMix.Add(PuzzleDictionary.puzzlesTypes.puzzleFarm.tree);
                         typesToMix.Add(PuzzleDictionary.puzzlesTypes.puzzleFarm.grass);
                         return typesToMix;

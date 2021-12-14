@@ -31,7 +31,7 @@ public class PuzzleDictionary : MonoBehaviour
 
     private int WhatPuzzle()
     {
-        int rnd = Random.Range(0, 6);
+        int rnd = Random.Range(0, 5);
 
         if (rnd == 0)
             return puzzlesTypes.puzzleFarm.grass;

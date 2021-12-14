@@ -378,6 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 477723b77d9f5d242b9023003cc55ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
 --- !u!1 &208495230
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,6 +514,8 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208495230}
   m_CullTransparentMesh: 1
+=======
+>>>>>>> parent of 5ea0400 (SelectingMoreTypes and tools)
 --- !u!1 &275778904
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,6 +643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineMaterial: {fileID: 2100000, guid: 1115a04dd2384ce4b9deb26704e8ae9a, type: 2}
+<<<<<<< HEAD
 --- !u!1 &946739403
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,3 +810,5 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> parent of 5ea0400 (SelectingMoreTypes and tools)

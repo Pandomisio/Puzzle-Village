@@ -26,8 +26,7 @@ public class puzzleManager : MonoBehaviour
     private lineController lineController;
 
     // TO know what player gathered and how much
-    List<int> WhatTypesWeCanGather;
-    //int playerGatheringPuzzleType;
+    int playerGatheringPuzzleType;
     int playerGatheringPuzzleCount;
 
     [SerializeField] private int width, height;
@@ -117,9 +116,7 @@ public class puzzleManager : MonoBehaviour
 
     public void FadeTypeOfPuzzle(int type)
     {
-        //playerGatheringPuzzleType = type;
-
-        WhatTypesWeCanGather = BonusesManager.Instance.WhatTypesWeCanGather(type);
+        playerGatheringPuzzleType = type;
         // We need to get types which we can combine
 
         foreach ( GameObject puzzle in puzzles)
@@ -133,21 +130,10 @@ public class puzzleManager : MonoBehaviour
                     playerUseFinger = true;
                     puzzleScript.SetPlayerUseFinger();
 
-                    bool activated = false;
-
-                    foreach (int typeAllowed in WhatTypesWeCanGather )
+                    if (!puzzleScript.IsSelectedTypePuzzle(type))
                     {
-                        if (puzzleScript.IsSelectedTypePuzzle(typeAllowed))
-                        {                            
-                            activated = true; 
-                            puzzleScript.unFadePuzzle();    
-                        }
-                        else
-                        {
-                            if (!activated)
-                                puzzleScript.FadePuzzle();
-                        }
-                    }                   
+                        puzzleScript.FadePuzzle();
+                    }
                 }
             }
         }
@@ -204,13 +190,10 @@ public class puzzleManager : MonoBehaviour
                                 }
                                 else
                                 {
-                                    foreach (int typeAllowed in WhatTypesWeCanGather)
+                                    if (puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
                                     {
-                                        if (puzzle.IsSelectedTypePuzzle(typeAllowed))
-                                        {
-                                            puzzle.SetCanBeSelected();
-                                            // Debug.Log("CAN be selected:  " + new Vector2(cordX, cordY));
-                                        }
+                                        puzzle.SetCanBeSelected();
+                                        // Debug.Log("CAN be selected:  " + new Vector2(cordX, cordY));
                                     }
                                 }
                             }
@@ -226,8 +209,6 @@ public class puzzleManager : MonoBehaviour
     private void DestroyPuzzlesInGrid()
     {
 
-        Dictionary<int, int> puzzlesGathered = new Dictionary<int, int>();
-
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -240,19 +221,11 @@ public class puzzleManager : MonoBehaviour
                     {                   
                         if (playerGatheringPuzzleCount > 0)
                         {
-                            //if (puzzle.GetIsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
-                            if (puzzle.GetIsPuzzleSelected())
-                            {                              
+                            if (puzzle.GetIsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
+                            {
+                                Destroy(puzzle.gameObject);
                                 puzzles[i, j] = null;
                                 playerGatheringPuzzleCount--;
-
-                                if (puzzlesGathered.ContainsKey(puzzle.GetPuzzleType()))
-                                    puzzlesGathered[puzzle.GetPuzzleType()] += 1;
-                                else
-                                    puzzlesGathered.Add(puzzle.GetPuzzleType(), 1);
-
-                                Destroy(puzzle.gameObject);
-
                             }
                             else
                             {
@@ -269,20 +242,9 @@ public class puzzleManager : MonoBehaviour
                 }
             }
         }
-        //Debug.Log(" Zebra³eœ typ: " + playerGatheringPuzzleType + " w iloœci: " + playerGatheringPuzzleCount);
-
-        SaveOurGatheredPuzzles(puzzlesGathered);
+        Debug.Log(" Zebra³eœ typ: " + playerGatheringPuzzleType + " w iloœci: " + playerGatheringPuzzleCount);
 
         SortOutGrid();
-    }
-    private void SaveOurGatheredPuzzles(Dictionary<int,int> gatheredPuzzles)
-    {
-        foreach (KeyValuePair<int,int> entry in gatheredPuzzles)
-        {
-            Debug.Log("Zebra³eœ: " + entry.Key + " w iloœci: " + entry.Value);
-        }
-
-        // Activate storage with this dictionary to save his gathered Puzzles
     }
 
     private void SortOutGrid()
@@ -324,7 +286,6 @@ public class puzzleManager : MonoBehaviour
                 }
             }
         }
-
         AddNewPuzzlesToGrid();
     }
 
@@ -365,6 +326,28 @@ public class puzzleManager : MonoBehaviour
             // Reset collecting order
             puzzleSelectedOrder = new List<Vector2>();
 
+            //TODO MERGE IT WITH DestroyPuzzlesInGrid 
+
+            /*foreach (GameObject puzzle in puzzles)
+            {
+                if (puzzle != null)
+                {
+
+                    Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
+                    if (puzzleScript != null)
+                    {
+                        if (puzzleScript.GetIsPuzzleSelected())
+                        {                    
+                            playerGatheringPuzzleCount++;                      
+                        }
+                        
+                        puzzleScript.SetPlayerDoesntUseFigner();
+                        //puzzleScript.SetCantBeSelected();
+                    }
+                        
+                }
+            }
+            */
             if (playerGatheringPuzzleCount >= minPuzzleToGather)
             {
                 DestroyPuzzlesInGrid();
@@ -389,69 +372,52 @@ public class puzzleManager : MonoBehaviour
             }
 
             playerUseFinger = false;       
-            //playerGatheringPuzzleType = -1;
+            playerGatheringPuzzleType = -1;
            
         }
-
+        
     }
 #endregion
 
-    //public Dictionary<int,int> UsedTool( int idOfTool )
-    public void UsedTool( int idOfTool )
+    public Dictionary<int,int> UsedTool( int idOfTool )
     {
-        int ifWeGetSome = 0;
         // What this tool can do
         List<int> TypesToGather = PuzzleTools.Instance.WhatToolBreak(idOfTool);
 
         if (TypesToGather.Count > 0)
         {
             Dictionary<int,int> puzzlesGathered = new Dictionary<int, int>();
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    GameObject puzzle = puzzles[i, j];
-                    
-                    if (puzzle != null)
-                    {
-                        Puzzle puzzleComp = puzzle.GetComponent<Puzzle>();
-                        
-                        if (puzzleComp != null)
-                        {
-                            foreach (int type in TypesToGather)
-                            {
-                                if (puzzleComp.IsSelectedTypePuzzle(type))
-                                {
-                                    // Destroy them and count
-                                    Destroy(puzzle.gameObject);
-                                    puzzles[i, j] = null;
-                                    ifWeGetSome++;
 
-                                    if (puzzlesGathered.ContainsKey(type))
-                                        puzzlesGathered[type] += 1;
-                                    else
-                                        puzzlesGathered.Add(type, 1);
-                                }
+            foreach (GameObject puzzle in puzzles)
+            {
+                if (puzzle != null)
+                {
+                    Puzzle puzzleComp = puzzle.GetComponent<Puzzle>();
+                    if (puzzleComp != null)
+                    {
+                        foreach (int type in TypesToGather)
+                        {
+                            if (puzzleComp.IsSelectedTypePuzzle(type))
+                            {
+                                // Destroy them and count
+                                Destroy(puzzle.gameObject);
+                                // Struct/class with (id , count) and list of it?
+                                // Or dictionary
+                                puzzlesGathered.Add(type, puzzlesGathered[type] + 1);                               
                             }
                         }
                     }
                 }
             }
-            
+
             // We destroyed puzzles by tool
             // Time to sort and add new puzzles
-            if ( ifWeGetSome > 0 )
-            {
-                SaveOurGatheredPuzzles(puzzlesGathered);
 
-                SortOutGrid();
-            }
-            else
-            {
-                // Tool didnt get any puzzle,
-                // we can give player it back
-            }
+            SortOutGrid();
 
+            return puzzlesGathered;
         }
+        else 
+            return null;
     }
 }
