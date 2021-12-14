@@ -90,6 +90,7 @@ public class puzzleManager : MonoBehaviour
     {
         lineController.NewPuzzleSelected(posInGrid);
         puzzleSelectedOrder.Add(selectedPuzzlePosInArray);
+        playerGatheringPuzzleCount++;
     }
     public void TryUnselectPuzzle(Vector2 s)
     {
@@ -104,6 +105,7 @@ public class puzzleManager : MonoBehaviour
                 puzzles[(int)pos.x, (int)pos.y].GetComponent<Puzzle>().unSelectPuzzle();
                 ActivatePuzzlesAround(s);
                 puzzleSelectedOrder.RemoveAt(puzzleSelectedOrder.Count - 1);
+                playerGatheringPuzzleCount--;
             }
             /*
             else
@@ -115,6 +117,8 @@ public class puzzleManager : MonoBehaviour
     public void FadeTypeOfPuzzle(int type)
     {
         playerGatheringPuzzleType = type;
+        // We need to get types which we can combine
+
         foreach ( GameObject puzzle in puzzles)
         {
             if (puzzle != null)
@@ -204,7 +208,7 @@ public class puzzleManager : MonoBehaviour
 
     private void DestroyPuzzlesInGrid()
     {
-        playerGatheringPuzzleCount = 0;
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -213,14 +217,28 @@ public class puzzleManager : MonoBehaviour
                 if (gameObject != null)
                 {
                     Puzzle puzzle = gameObject.GetComponent<Puzzle>();
-                    if (puzzle.GetIsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
-                    {
-                        Destroy(puzzle.gameObject);
-                        puzzles[i, j] = null;
-                        playerGatheringPuzzleCount++;
+                    if (puzzle != null)
+                    {                   
+                        if (playerGatheringPuzzleCount > 0)
+                        {
+                            if (puzzle.GetIsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
+                            {
+                                Destroy(puzzle.gameObject);
+                                puzzles[i, j] = null;
+                                playerGatheringPuzzleCount--;
+                            }
+                            else
+                            {
+                                puzzle.SetPlayerDoesntUseFigner();
+                                puzzle.SetCantBeSelected();
+                            }
+                        }
+                        else
+                        {
+                            puzzle.SetPlayerDoesntUseFigner();
+                            puzzle.SetCantBeSelected();
+                        }
                     }
-                    else
-                        puzzle.SetCantBeSelected();
                 }
             }
         }
@@ -301,8 +319,6 @@ public class puzzleManager : MonoBehaviour
 #region ComputeUserFingers
     public void FingerUp()
     {
-        playerGatheringPuzzleCount = 0;
-
         if (playerUseFinger == true)
         {
             // Delete actual line
@@ -312,7 +328,7 @@ public class puzzleManager : MonoBehaviour
 
             //TODO MERGE IT WITH DestroyPuzzlesInGrid 
 
-            foreach (GameObject puzzle in puzzles)
+            /*foreach (GameObject puzzle in puzzles)
             {
                 if (puzzle != null)
                 {
@@ -331,10 +347,28 @@ public class puzzleManager : MonoBehaviour
                         
                 }
             }
-
+            */
             if (playerGatheringPuzzleCount >= minPuzzleToGather)
             {
                 DestroyPuzzlesInGrid();
+                playerGatheringPuzzleCount = 0;
+            }
+            else
+            {
+                foreach (GameObject puzzle in puzzles)
+                {
+                    if (puzzle != null)
+                    {
+
+                        Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
+                        if (puzzleScript != null)
+                        {
+                            puzzleScript.SetPlayerDoesntUseFigner();
+                            //puzzleScript.SetCantBeSelected();
+                        }
+
+                    }
+                }
             }
 
             playerUseFinger = false;       
