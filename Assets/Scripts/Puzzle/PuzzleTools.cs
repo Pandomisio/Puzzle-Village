@@ -19,6 +19,7 @@ public class PuzzleTools : MonoBehaviour
             case tools.rake:
                 {
                     list.Add(PuzzleDictionary.puzzlesTypes.puzzleFarm.grass);
+                    list.Add(PuzzleDictionary.puzzlesTypes.puzzleFarm.wheat);
                     return list;
                 }
 

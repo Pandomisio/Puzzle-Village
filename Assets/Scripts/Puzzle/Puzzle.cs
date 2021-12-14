@@ -67,6 +67,8 @@ public class Puzzle : MonoBehaviour
         }
     }
 
+    public int GetPuzzleType() => type;
+
     public void SetUpType(int type) => this.type = type;
     //
     public void SetPlayerDoesntUseFigner() => playerUseFinger = false;
