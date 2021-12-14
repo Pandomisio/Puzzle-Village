@@ -379,6 +379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &208495230
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,6 +517,8 @@ CanvasRenderer:
   m_CullTransparentMesh: 1
 =======
 >>>>>>> parent of 5ea0400 (SelectingMoreTypes and tools)
+=======
+>>>>>>> parent of 5ea0400 (SelectingMoreTypes and tools)
 --- !u!1 &275778904
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,6 +646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineMaterial: {fileID: 2100000, guid: 1115a04dd2384ce4b9deb26704e8ae9a, type: 2}
+<<<<<<< HEAD
 <<<<<<< HEAD
 --- !u!1 &946739403
 GameObject:
@@ -810,5 +814,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> parent of 5ea0400 (SelectingMoreTypes and tools)
 =======
 >>>>>>> parent of 5ea0400 (SelectingMoreTypes and tools)
