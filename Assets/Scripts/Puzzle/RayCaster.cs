@@ -60,11 +60,18 @@ public class RayCaster : MonoBehaviour
                 else if (touch.phase == TouchPhase.Canceled)
                 {
 
-                    //Debug.Log("Touch canceled");
+                    /*//Debug.Log("Touch canceled");
                     firstTouch = false;
                     keepTouching = false;
                     endTouching = false;
-                    //RayCast(Input.GetTouch(i));                 
+                    //RayCast(Input.GetTouch(i));     */
+                    if (!firstTouch && keepTouching)
+                    {
+                        Debug.Log("Touch Canceled");
+                        keepTouching = false;
+                        endTouching = true;
+                        CastARay(touch);
+                    }
                 }
             }           
         }
