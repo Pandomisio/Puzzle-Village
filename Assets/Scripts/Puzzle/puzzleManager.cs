@@ -12,9 +12,9 @@ public class puzzleManager : MonoBehaviour
     // public GameObject[] puzzlePrefabs;
 
     // Our puzzles
-    public GameObject[,] puzzles;
+    public GameObject[,] gridOfPuzzles;
     // Every location for puzzle
-    private Vector2 [,] puzzlesPosition;
+    private Vector2 [,] positionOfPuzzlesXY;
 
     private List<Vector2> puzzleSelectedOrder;
     private Vector2 lastSelectedPuzzle;
@@ -40,8 +40,8 @@ public class puzzleManager : MonoBehaviour
     public void Start()
     {
         // +1 for creating puzzles above map
-        puzzles = new GameObject[width, height + 1];
-        puzzlesPosition = new Vector2 [width, height + 1];
+        gridOfPuzzles = new GameObject[width, height + 1];
+        positionOfPuzzlesXY = new Vector2 [width, height + 1];
 
         puzzleSelectedOrder = new List<Vector2>();
 
@@ -70,12 +70,12 @@ public class puzzleManager : MonoBehaviour
 
                 if ( j < height)
                 {                   
-                    puzzles[i, j] = Instantiate(newPuzzle, vector3, transform.rotation);
-                    puzzles[i, j].transform.parent = transform;
-                    puzzles[i, j].GetComponent<Puzzle>().SetUpType(PuzzleDictionary.Instance.GetPuzzleType());
-                    puzzles[i, j].GetComponent<Puzzle>().SetPositionInArray(new Vector2(i, j));
+                    gridOfPuzzles[i, j] = Instantiate(newPuzzle, vector3, transform.rotation);
+                    gridOfPuzzles[i, j].transform.parent = transform;
+                    gridOfPuzzles[i, j].GetComponent<Puzzle>().SetUpType(PuzzleDictionary.Instance.GetPuzzleType());
+                    gridOfPuzzles[i, j].GetComponent<Puzzle>().SetPositionInArray(new Vector2(i, j));
                 }
-                puzzlesPosition[i, j] = new Vector2(vector3.x, vector3.y);
+                positionOfPuzzlesXY[i, j] = new Vector2(vector3.x, vector3.y);
             }
        }    
     }
@@ -103,7 +103,7 @@ public class puzzleManager : MonoBehaviour
                 //Debug.Log("TryUnselectPuzzle if true");
                 lineController.UnselectLastPuzzle();
                 Vector2 pos = puzzleSelectedOrder[puzzleSelectedOrder.Count - 1];
-                puzzles[(int)pos.x, (int)pos.y].GetComponent<Puzzle>().unSelectPuzzle();
+                gridOfPuzzles[(int)pos.x, (int)pos.y].GetComponent<Puzzle>().unSelectPuzzle();
                 ActivatePuzzlesAround(s);
                 puzzleSelectedOrder.RemoveAt(puzzleSelectedOrder.Count - 1);
                 playerGatheringPuzzleCount--;
@@ -122,7 +122,7 @@ public class puzzleManager : MonoBehaviour
         WhatTypesWeCanGather = BonusesManager.Instance.WhatTypesWeCanGather(type);
         // We need to get types which we can combine
 
-        foreach ( GameObject puzzle in puzzles)
+        foreach ( GameObject puzzle in gridOfPuzzles)
         {
             if (puzzle != null)
             {
@@ -186,7 +186,7 @@ public class puzzleManager : MonoBehaviour
 
                     if ((cordX > -1 && cordX < width) && (cordY > -1 && cordY < height))
                     {
-                        GameObject gameObject = puzzles[cordX, cordY];
+                        GameObject gameObject = gridOfPuzzles[cordX, cordY];
 
                         if (gameObject != null)
                         {
@@ -232,7 +232,7 @@ public class puzzleManager : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                GameObject gameObject = puzzles[i, j];
+                GameObject gameObject = gridOfPuzzles[i, j];
                 if (gameObject != null)
                 {
                     Puzzle puzzle = gameObject.GetComponent<Puzzle>();
@@ -243,7 +243,7 @@ public class puzzleManager : MonoBehaviour
                             //if (puzzle.GetIsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
                             if (puzzle.GetIsPuzzleSelected())
                             {                              
-                                puzzles[i, j] = null;
+                                gridOfPuzzles[i, j] = null;
                                 playerGatheringPuzzleCount--;
 
                                 if (puzzlesGathered.ContainsKey(puzzle.GetPuzzleType()))
@@ -294,7 +294,7 @@ public class puzzleManager : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                GameObject puzzle = puzzles[i, j];
+                GameObject puzzle = gridOfPuzzles[i, j];
 
                 if (puzzle == null)
                 {
@@ -303,14 +303,14 @@ public class puzzleManager : MonoBehaviour
 
                     for (int k = j+1; k < height; k++)
                     {
-                        if (puzzles[i,k] != null)
+                        if (gridOfPuzzles[i,k] != null)
                         {
-                            fallingPuzzle = puzzles[i, k];
-                            puzzles[i, k] = null;
-                            puzzles[i, j] = fallingPuzzle;
+                            fallingPuzzle = gridOfPuzzles[i, k];
+                            gridOfPuzzles[i, k] = null;
+                            gridOfPuzzles[i, j] = fallingPuzzle;
 
-                            puzzles[i, j].GetComponent<Puzzle>().GiveNewPosition(puzzlesPosition[i, j]);
-                            puzzles[i, j].GetComponent<Puzzle>().SetPositionInArray(new Vector2(i, j));
+                            gridOfPuzzles[i, j].GetComponent<Puzzle>().GiveNewPosition(positionOfPuzzlesXY[i, j]);
+                            gridOfPuzzles[i, j].GetComponent<Puzzle>().SetPositionInArray(new Vector2(i, j));
                             //fallingPuzzle.transform.position = puzzlesPosition[i,j];
                             break;
                         }
@@ -334,17 +334,17 @@ public class puzzleManager : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                if (puzzles[i, j] == null)
+                if (gridOfPuzzles[i, j] == null)
                 {
 
                     GameObject newPuzzle = PuzzleDictionary.Instance.GetPuzzle();
                     Vector3 childScale = newPuzzle.transform.localScale;
                     Vector3 vector3 = PositionForPuzzle(i + (i * childScale.x), j + (j * childScale.y));
 
-                    puzzles[i, j] = Instantiate(newPuzzle, puzzlesPosition[i, height], transform.rotation);
+                    gridOfPuzzles[i, j] = Instantiate(newPuzzle, positionOfPuzzlesXY[i, height], transform.rotation);
 
-                    puzzles[i, j].transform.parent = transform;
-                    Puzzle puzzle = puzzles[i, j].GetComponent<Puzzle>();
+                    gridOfPuzzles[i, j].transform.parent = transform;
+                    Puzzle puzzle = gridOfPuzzles[i, j].GetComponent<Puzzle>();
                     puzzle.SetUpType(PuzzleDictionary.Instance.GetPuzzleType());
                     puzzle.GiveNewPosition(vector3);
                     puzzle.SetPositionInArray(new Vector2(i, j));
@@ -372,7 +372,7 @@ public class puzzleManager : MonoBehaviour
             }
             else
             {
-                foreach (GameObject puzzle in puzzles)
+                foreach (GameObject puzzle in gridOfPuzzles)
                 {
                     if (puzzle != null)
                     {
@@ -410,7 +410,7 @@ public class puzzleManager : MonoBehaviour
             {
                 for (int j = 0; j < height; j++)
                 {
-                    GameObject puzzle = puzzles[i, j];
+                    GameObject puzzle = gridOfPuzzles[i, j];
                     
                     if (puzzle != null)
                     {
@@ -424,7 +424,7 @@ public class puzzleManager : MonoBehaviour
                                 {
                                     // Destroy them and count
                                     Destroy(puzzle.gameObject);
-                                    puzzles[i, j] = null;
+                                    gridOfPuzzles[i, j] = null;
                                     ifWeGetSome++;
 
                                     if (puzzlesGathered.ContainsKey(type))
