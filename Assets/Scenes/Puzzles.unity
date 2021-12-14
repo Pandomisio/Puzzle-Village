@@ -216,8 +216,10 @@ GameObject:
   - component: {fileID: 191250096}
   - component: {fileID: 191250095}
   - component: {fileID: 191250097}
+  - component: {fileID: 191250098}
+  - component: {fileID: 191250099}
   m_Layer: 0
-  m_Name: PuzzleGrid
+  m_Name: PuzzleManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,12 +234,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 191250094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563b9976f0e41b4b88cae47f68c4a6b, type: 3}
+  m_Script: {fileID: 11500000, guid: e74a0f7ffb8202d4aaf6be6cbebedf51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   minPuzzleToGather: 3
   offset: 1.15
-  lineController: {fileID: 0}
   width: 8
   height: 5
 --- !u!4 &191250096
@@ -274,6 +275,30 @@ MonoBehaviour:
   - {fileID: 3991442314849410140, guid: 1643c545a26c46e439542da2f58442d9, type: 3}
   - {fileID: 2347832810301444814, guid: f31fb29ecaed23e498e2db948661a938, type: 3}
   - {fileID: 5670850157510303922, guid: d32e580123fcd5a4db7ab73b5f2951e4, type: 3}
+--- !u!114 &191250098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191250094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cefa83422736df42b2878814a329991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &191250099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191250094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 477723b77d9f5d242b9023003cc55ec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &275778904
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +348,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 1
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -336,8 +361,8 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 0
-  m_AllowMSAA: 0
+  m_HDR: 1
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -351,7 +376,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 275778904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.7, y: 4, z: -10}
+  m_LocalPosition: {x: 3.7, y: 4, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

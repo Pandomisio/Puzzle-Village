@@ -187,7 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   downSizeScale: 0.4
-  speed: 0.25
+  speed: 0.75
 --- !u!50 &608203220475503083
 Rigidbody2D:
   serializedVersion: 4

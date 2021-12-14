@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class puzzleGrid : MonoBehaviour
+public class puzzleManager : MonoBehaviour
 {
+    public static puzzleManager Instance;
+
     [SerializeField] int minPuzzleToGather = 3;
     [SerializeField] float offset = 1.2f;
     // Our prefabs
@@ -20,13 +22,20 @@ public class puzzleGrid : MonoBehaviour
     // We set it when player start from puzzle
     private bool playerUseFinger;
 
-    public lineController lineController;
+    // Line on selected puzzles
+    private lineController lineController;
 
     // TO know what player gathered and how much
     int playerGatheringPuzzleType;
     int playerGatheringPuzzleCount;
 
     [SerializeField] private int width, height;
+
+    public void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
     public void Start()
     {
         // +1 for creating puzzles above map
@@ -43,9 +52,10 @@ public class puzzleGrid : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_STANDALONE
         if (Input.GetKeyUp(KeyCode.Mouse0))
             FingerUp();
-
+#endif
     }
     private void InitPuzzleGrid()
     {
@@ -53,41 +63,20 @@ public class puzzleGrid : MonoBehaviour
        {
             for ( int j = 0; j < height + 1; j++ )
             {
-                /*int getPuzzleType = WhatPuzzleToGrid();
-                Vector3 childScale = puzzlePrefabs[getPuzzleType].transform.localScale;
-                Vector3 vector3 = PositionForPuzzle(i + (i * childScale.x), j + (j * childScale.y));*/
-
                 GameObject newPuzzle = PuzzleDictionary.Instance.GetPuzzle();
                 Vector3 childScale = newPuzzle.transform.localScale;
                 Vector3 vector3 = PositionForPuzzle(i + (i * childScale.x), j + (j * childScale.y)) ;
 
                 if ( j < height)
-                {
-                    // Init a prefab and make him a child
-                    /*puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
-                    puzzles[i, j].transform.parent = transform;
-                    puzzles[i, j].GetComponent<Puzzle>().SetUpType(getPuzzleType);
-                    puzzles[i, j].GetComponent<Puzzle>().SetPositionInArray(new Vector2(i, j));*/
-
-                    
+                {                   
                     puzzles[i, j] = Instantiate(newPuzzle, vector3, transform.rotation);
                     puzzles[i, j].transform.parent = transform;
                     puzzles[i, j].GetComponent<Puzzle>().SetUpType(PuzzleDictionary.Instance.GetPuzzleType());
                     puzzles[i, j].GetComponent<Puzzle>().SetPositionInArray(new Vector2(i, j));
-
                 }
-
                 puzzlesPosition[i, j] = new Vector2(vector3.x, vector3.y);
             }
        }    
-    }
-    private int WhatPuzzleToGrid()
-    {
-        int rnd = Random.Range(0, 2);
-        if (rnd == 0)
-            return puzzlesTypes.puzzleFarm.grass;
-        else
-            return puzzlesTypes.puzzleFarm.wheat;
     }
 
     private Vector3 PositionForPuzzle(float i , float j)
@@ -101,6 +90,7 @@ public class puzzleGrid : MonoBehaviour
     {
         lineController.NewPuzzleSelected(posInGrid);
         puzzleSelectedOrder.Add(selectedPuzzlePosInArray);
+        playerGatheringPuzzleCount++;
     }
     public void TryUnselectPuzzle(Vector2 s)
     {
@@ -115,6 +105,7 @@ public class puzzleGrid : MonoBehaviour
                 puzzles[(int)pos.x, (int)pos.y].GetComponent<Puzzle>().unSelectPuzzle();
                 ActivatePuzzlesAround(s);
                 puzzleSelectedOrder.RemoveAt(puzzleSelectedOrder.Count - 1);
+                playerGatheringPuzzleCount--;
             }
             /*
             else
@@ -126,6 +117,8 @@ public class puzzleGrid : MonoBehaviour
     public void FadeTypeOfPuzzle(int type)
     {
         playerGatheringPuzzleType = type;
+        // We need to get types which we can combine
+
         foreach ( GameObject puzzle in puzzles)
         {
             if (puzzle != null)
@@ -215,7 +208,7 @@ public class puzzleGrid : MonoBehaviour
 
     private void DestroyPuzzlesInGrid()
     {
-        playerGatheringPuzzleCount = 0;
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -224,14 +217,28 @@ public class puzzleGrid : MonoBehaviour
                 if (gameObject != null)
                 {
                     Puzzle puzzle = gameObject.GetComponent<Puzzle>();
-                    if (puzzle.GetIsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
-                    {
-                        Destroy(puzzle.gameObject);
-                        puzzles[i, j] = null;
-                        playerGatheringPuzzleCount++;
+                    if (puzzle != null)
+                    {                   
+                        if (playerGatheringPuzzleCount > 0)
+                        {
+                            if (puzzle.GetIsPuzzleSelected() && puzzle.IsSelectedTypePuzzle(playerGatheringPuzzleType))
+                            {
+                                Destroy(puzzle.gameObject);
+                                puzzles[i, j] = null;
+                                playerGatheringPuzzleCount--;
+                            }
+                            else
+                            {
+                                puzzle.SetPlayerDoesntUseFigner();
+                                puzzle.SetCantBeSelected();
+                            }
+                        }
+                        else
+                        {
+                            puzzle.SetPlayerDoesntUseFigner();
+                            puzzle.SetCantBeSelected();
+                        }
                     }
-                    else
-                        puzzle.SetCantBeSelected();
                 }
             }
         }
@@ -284,28 +291,12 @@ public class puzzleGrid : MonoBehaviour
 
     private void AddNewPuzzlesToGrid()
     {
-        int debugDestroyedPuzzles = 0;
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
                 if (puzzles[i, j] == null)
                 {
-                    debugDestroyedPuzzles++;
-
-                    /*int getPuzzleType = WhatPuzzleToGrid();
-                    Vector3 vector3 = new Vector3(puzzlesPosition[i, j].x, puzzlesPosition[i, j].y, 0f);
-                    
-                    // Init a prefab and make him a child
-                    puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], puzzlesPosition[i, height], transform.rotation);
-                    //puzzles[i, j] = Instantiate(puzzlePrefabs[getPuzzleType], vector3, transform.rotation);
-
-                    puzzles[i, j].transform.parent = transform;
-                    Puzzle puzzle = puzzles[i, j].GetComponent<Puzzle>();
-                    puzzle.SetUpType(getPuzzleType);
-                    puzzle.GiveNewPosition(vector3);
-                    puzzle.SetPositionInArray(new Vector2(i,j));*/
-
 
                     GameObject newPuzzle = PuzzleDictionary.Instance.GetPuzzle();
                     Vector3 childScale = newPuzzle.transform.localScale;
@@ -325,11 +316,9 @@ public class puzzleGrid : MonoBehaviour
     }
 
     //Player dont use finger
-    #region ComputeUserFingers
-    private void FingerUp()
+#region ComputeUserFingers
+    public void FingerUp()
     {
-        playerGatheringPuzzleCount = 0;
-
         if (playerUseFinger == true)
         {
             // Delete actual line
@@ -337,7 +326,9 @@ public class puzzleGrid : MonoBehaviour
             // Reset collecting order
             puzzleSelectedOrder = new List<Vector2>();
 
-            foreach (GameObject puzzle in puzzles)
+            //TODO MERGE IT WITH DestroyPuzzlesInGrid 
+
+            /*foreach (GameObject puzzle in puzzles)
             {
                 if (puzzle != null)
                 {
@@ -356,10 +347,28 @@ public class puzzleGrid : MonoBehaviour
                         
                 }
             }
-
+            */
             if (playerGatheringPuzzleCount >= minPuzzleToGather)
             {
                 DestroyPuzzlesInGrid();
+                playerGatheringPuzzleCount = 0;
+            }
+            else
+            {
+                foreach (GameObject puzzle in puzzles)
+                {
+                    if (puzzle != null)
+                    {
+
+                        Puzzle puzzleScript = puzzle.GetComponent<Puzzle>();
+                        if (puzzleScript != null)
+                        {
+                            puzzleScript.SetPlayerDoesntUseFigner();
+                            //puzzleScript.SetCantBeSelected();
+                        }
+
+                    }
+                }
             }
 
             playerUseFinger = false;       
@@ -368,48 +377,47 @@ public class puzzleGrid : MonoBehaviour
         }
         
     }
-    #endregion
+#endregion
 
-
-
-    public abstract class puzzlesGamesTypes
+    public Dictionary<int,int> UsedTool( int idOfTool )
     {
-        //-- classic
-        public const int farm = 1;
-        public const int mine = 2;
-    }
+        // What this tool can do
+        List<int> TypesToGather = PuzzleTools.Instance.WhatToolBreak(idOfTool);
 
-    public abstract class puzzlesTypes
-    {
-        //-- classic
-        public abstract class puzzleFarm
+        if (TypesToGather.Count > 0)
         {
-            // farm
-            public const int grass = 1;
-            public const int wheat = 2;
-            public const int chicken = 3;
-            public const int pig = 4;
-            public const int carrot = 5;
-            public const int tree = 6;
+            Dictionary<int,int> puzzlesGathered = new Dictionary<int, int>();
 
-            //-- enemies 
-            // farm
-            const int rat = 14;
+            foreach (GameObject puzzle in puzzles)
+            {
+                if (puzzle != null)
+                {
+                    Puzzle puzzleComp = puzzle.GetComponent<Puzzle>();
+                    if (puzzleComp != null)
+                    {
+                        foreach (int type in TypesToGather)
+                        {
+                            if (puzzleComp.IsSelectedTypePuzzle(type))
+                            {
+                                // Destroy them and count
+                                Destroy(puzzle.gameObject);
+                                // Struct/class with (id , count) and list of it?
+                                // Or dictionary
+                                puzzlesGathered.Add(type, puzzlesGathered[type] + 1);                               
+                            }
+                        }
+                    }
+                }
+            }
+
+            // We destroyed puzzles by tool
+            // Time to sort and add new puzzles
+
+            SortOutGrid();
+
+            return puzzlesGathered;
         }
-        public abstract class puzzleMine
-        {
-            // mine
-            public const int dirt = 7;
-            public const int iron = 8;
-            public const int stone = 9;
-            public const int coal = 10;
-            public const int gold = 11;
-            public const int silver = 12;
-            public const int diamond = 13;
-
-            // mine
-            const int lava = 15;
-        }
-
+        else 
+            return null;
     }
 }
