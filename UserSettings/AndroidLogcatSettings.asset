@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "JQYNW19125007400",
     "m_SelectedPackage": {
-        "deviceId": "JQYNW19125007400",
-        "name": "com.DefaultCompany.com.unity.template.mobile2D",
-        "processId": 27481,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -70,6 +70,12 @@
         },
         {
             "deviceId": "JQYNW19125007400",
+            "name": "com.unity3d.genericremote",
+            "processId": 28450,
+            "exited": true
+        },
+        {
+            "deviceId": "JQYNW19125007400",
             "name": "com.huawei.android.launcher",
             "processId": 2015,
             "exited": false
@@ -77,67 +83,13 @@
         {
             "deviceId": "JQYNW19125007400",
             "name": "com.unity3d.genericremote",
-            "processId": 19145,
-            "exited": true
-        },
-        {
-            "deviceId": "JQYNW19125007400",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 20036,
-            "exited": true
-        },
-        {
-            "deviceId": "JQYNW19125007400",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 21185,
-            "exited": true
-        },
-        {
-            "deviceId": "JQYNW19125007400",
-            "name": "com.unity3d.genericremote",
-            "processId": 21739,
-            "exited": true
-        },
-        {
-            "deviceId": "JQYNW19125007400",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 22626,
-            "exited": true
-        },
-        {
-            "deviceId": "JQYNW19125007400",
-            "name": "com.unity3d.genericremote",
-            "processId": 23115,
+            "processId": 5705,
             "exited": false
         },
         {
             "deviceId": "JQYNW19125007400",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 25923,
-            "exited": false
-        },
-        {
-            "deviceId": "JQYNW19125007400",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 27481,
-            "exited": false
-        },
-        {
-            "deviceId": "R5CRB1201LY",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 18371,
-            "exited": true
-        },
-        {
-            "deviceId": "R5CRB1201LY",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 7146,
-            "exited": true
-        },
-        {
-            "deviceId": "R5CRB1201LY",
-            "name": "com.unity3d.mobileremote",
-            "processId": 21650,
+            "name": "com.android.settings",
+            "processId": 19283,
             "exited": false
         }
     ],
