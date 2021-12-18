@@ -25,6 +25,12 @@ public static class PuzzleTools// : MonoBehaviour
 
             case (int)toolType.shovel:
                 {
+                    list.Add((int)PuzzleDictionary.puzzleTypes.dirt);
+                    return list;
+                }
+            case (int)toolType.scythe:
+                {
+                    list.Add((int)PuzzleDictionary.puzzleTypes.wheat);
                     return list;
                 }
             default:
@@ -41,7 +47,8 @@ public static class PuzzleTools// : MonoBehaviour
     {
         // They have id 0,1,2...
         rake,
-        shovel
+        shovel,
+        scythe
     }
 
     /*public enum toolTypeValue : int

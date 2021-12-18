@@ -31,7 +31,10 @@ public class UI_Manager : MonoBehaviour
 
     public void GetAmountOfTool(int type, UI_Button_Tool tool)
     {
-        tool.UpdateAmount(_amountOfTools[type],_maxTools);
+        if (_amountOfTools.ContainsKey(type))
+            tool.UpdateAmount(_amountOfTools[type],_maxTools);
+        else
+            tool.UpdateAmount(0, _maxTools);
     }
     
     

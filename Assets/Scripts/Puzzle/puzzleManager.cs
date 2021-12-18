@@ -48,10 +48,13 @@ public class puzzleManager : MonoBehaviour
         // Add singleton
         lineController = transform.GetComponentInChildren<lineController>();
 
+
+
         UI_Manager._instance.SetMoves(2);
         Dictionary<int, int> AmountOfTools = new Dictionary<int,int>();
         //AmountOfTools.Add(PuzzleTools.tools.rake, 3);
         AmountOfTools.Add((int)PuzzleTools.toolType.rake, 3);
+        AmountOfTools.Add((int)PuzzleTools.toolType.scythe, 3);
         UI_Manager._instance.SetAmountOfTools(AmountOfTools);
 
         InitPuzzleGrid();
