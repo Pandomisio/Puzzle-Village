@@ -48,6 +48,11 @@ public class puzzleManager : MonoBehaviour
         // Add singleton
         lineController = transform.GetComponentInChildren<lineController>();
 
+        UI_Manager._instance.SetMoves(2);
+        Dictionary<int, int> AmountOfTools = new Dictionary<int,int>();
+        AmountOfTools.Add(0, 3);
+        UI_Manager._instance.SetAmountOfTools(AmountOfTools);
+
         InitPuzzleGrid();
     }
 
@@ -353,9 +358,6 @@ public class puzzleManager : MonoBehaviour
         }
         //Debug.Log("debugDestroyedPuzzles:" + debugDestroyedPuzzles);
     }
-
-    //Player dont use finger
-#region ComputeUserFingers
     public void FingerUp()
     {
         if (playerUseFinger == true)
@@ -368,6 +370,7 @@ public class puzzleManager : MonoBehaviour
             if (playerGatheringPuzzleCount >= minPuzzleToGather)
             {
                 DestroyPuzzlesInGrid();
+                UI_Manager._instance.PlayerMoved();
                 playerGatheringPuzzleCount = 0;
             }
             else
@@ -387,17 +390,15 @@ public class puzzleManager : MonoBehaviour
                     }
                 }
             }
-
             playerUseFinger = false;       
-            //playerGatheringPuzzleType = -1;
-           
+            //playerGatheringPuzzleType = -1;          
         }
 
     }
-#endregion
+
 
     //public Dictionary<int,int> UsedTool( int idOfTool )
-    public void UsedTool( int idOfTool )
+    public bool UsedTool( int idOfTool )
     {
         int ifWeGetSome = 0;
         // What this tool can do
@@ -445,13 +446,16 @@ public class puzzleManager : MonoBehaviour
                 SaveOurGatheredPuzzles(puzzlesGathered);
 
                 SortOutGrid();
+                return true;
             }
             else
             {
                 // Tool didnt get any puzzle,
                 // we can give player it back
+                return false;
             }
 
         }
+        return false;
     }
 }

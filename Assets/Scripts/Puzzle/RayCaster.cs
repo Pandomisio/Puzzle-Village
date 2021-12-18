@@ -93,23 +93,23 @@ public class RayCaster : MonoBehaviour
             GameObject gameObject = hit.transform.gameObject;
             if (gameObject != null)
             {
-                Debug.Log("hit in:" + touch.phase);
+                //Debug.Log("hit in:" + touch.phase);
                 //Destroy(gameObject);
                 Puzzle puzzle = gameObject.GetComponent<Puzzle>();
                 if (puzzle != null)
                     WorkWithPuzzle(puzzle);
                 else
-                    Debug.Log("No puzzle in gameobject :c");
+                    ;//Debug.Log("No puzzle in gameobject :c");
 
             }
             else
             {
-                Debug.Log("Null hit in" + touch.position);
+                //Debug.Log("Null hit in" + touch.position);
             }
         }
         else
         {
-            Debug.Log("No hit in" + touch.position);
+            //Debug.Log("No hit in" + touch.position);
         }
     }
 
