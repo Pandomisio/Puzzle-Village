@@ -33,7 +33,7 @@ public class lineController : MonoBehaviour
         
         line.positionCount++;
 
-        Vector3 newPos = new Vector3(selectedPuzzlePosInArray.x - posToCorrect.x, selectedPuzzlePosInArray.y - posToCorrect.y, 0f);
+        Vector3 newPos = new Vector3(selectedPuzzlePosInArray.x - posToCorrect.x, selectedPuzzlePosInArray.y - posToCorrect.y, -.5f);
 
         line.SetPosition(lineCounter, newPos);
 
@@ -65,14 +65,14 @@ public class lineController : MonoBehaviour
     private void NewLine(Vector2 pos)
     {
         GameObject go = new GameObject();
-        go.transform.position = pos;
+        go.transform.position = new Vector3(pos.x,pos.y,-.5f);
         posToCorrect = pos;
         line = go.AddComponent<LineRenderer>();
         line.material = lineMaterial;
         
         line.positionCount = 0;
-        line.startWidth = 0.5f;
-        line.endWidth = 0.5f;
+        line.startWidth = 0.15f;
+        line.endWidth = 0.15f;
         line.useWorldSpace = false;
         line.numCapVertices = 50;
         
