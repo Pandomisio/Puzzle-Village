@@ -3,18 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Button : MonoBehaviour
+public class UI_Button_Tool : MonoBehaviour
 {
-    [SerializeField] int toolType;
+    int toolType;
+    // public ToolType tools = new ToolType();
+    public PuzzleTools.toolType toolTypes = new PuzzleTools.toolType();
 
     private Button _btn;
     private Text _text;
 
     void Start()
     {
+        toolType = 2;
         _btn = GetComponent<Button>();
         _btn.onClick.AddListener(UseTool);
         _text = _btn.GetComponentInChildren<Text>();
+
+        // toolType = toolTypes;
+        // toolType store what we chosed in inspector
+        //toolTypes.ToString();
+        Debug.Log((int)System.Enum.Parse(typeof(PuzzleTools.toolType), toolTypes.ToString()));
+        toolType = (int)System.Enum.Parse( typeof(PuzzleTools.toolType) , toolTypes.ToString() );
 
         UI_Manager.triggerInitToolsCounter += InitTool;
     }
@@ -34,4 +43,5 @@ public class UI_Button : MonoBehaviour
     {
         _text.text = "Rake: " +  amount + " / " + maxTools;
     }
+
 }

@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee22110e965922488ebd97046b2d306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toolType: 0
+  toolTypes: 0
 --- !u!114 &164280067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,8 +431,6 @@ GameObject:
   - component: {fileID: 191250095}
   - component: {fileID: 191250097}
   - component: {fileID: 191250098}
-  - component: {fileID: 191250099}
-  - component: {fileID: 191250100}
   m_Layer: 0
   m_Name: PuzzleManager
   m_TagString: Untagged
@@ -500,30 +498,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cefa83422736df42b2878814a329991, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &191250099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191250094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 477723b77d9f5d242b9023003cc55ec7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &191250100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191250094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db92c3e71ff1dba4d96ab23e33f139bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &208495230

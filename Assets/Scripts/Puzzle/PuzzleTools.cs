@@ -2,28 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PuzzleTools : MonoBehaviour
+public static class PuzzleTools// : MonoBehaviour
 {
-    public static PuzzleTools Instance;
+    /*public static PuzzleTools Instance;
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
-    }
+    }*/
 
-    public List<int> WhatToolBreak(int idOfTool)
+    public static List<int> WhatToolBreak(int idOfTool)
     {
         List<int> list = new List<int>();
+
         switch (idOfTool)
         {
-            case tools.rake:
+            case (int)toolType.rake:
                 {
-                    list.Add(PuzzleDictionary.puzzlesTypes.puzzleFarm.grass);
-                    list.Add(PuzzleDictionary.puzzlesTypes.puzzleFarm.wheat);
+                    list.Add((int)PuzzleDictionary.puzzleTypes.grass);
                     return list;
                 }
 
-            case 1:
+            case (int)toolType.shovel:
                 {
                     return list;
                 }
@@ -33,8 +33,20 @@ public class PuzzleTools : MonoBehaviour
                 }
         }
     }
-    public abstract class tools
+    /*public abstract class tools
     {
         public const int rake = 0;
+    }*/
+    public enum toolType
+    {
+        // They have id 0,1,2...
+        rake,
+        shovel
     }
+
+    /*public enum toolTypeValue : int
+    {
+        rake = 0,
+        shovel = 1
+    }*/
 }

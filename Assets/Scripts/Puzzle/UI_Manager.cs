@@ -11,7 +11,9 @@ public class UI_Manager : MonoBehaviour
 
     public static event Action triggerInitToolsCounter = delegate { };
 
+    // Bonus manager?
     private short _maxTools = 5;
+
     private void Awake()
     {
         if (_instance == null)
@@ -27,13 +29,13 @@ public class UI_Manager : MonoBehaviour
     }
     
 
-    public void GetAmountOfTool(int type, UI_Button tool)
+    public void GetAmountOfTool(int type, UI_Button_Tool tool)
     {
         tool.UpdateAmount(_amountOfTools[type],_maxTools);
     }
     
     
-    public void UseTool(int type, UI_Button tool)
+    public void UseTool(int type, UI_Button_Tool tool)
     {
         if (_amountOfTools[type] > 0)
         {

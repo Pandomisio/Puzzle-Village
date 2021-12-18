@@ -34,29 +34,29 @@ public class PuzzleDictionary : MonoBehaviour
         int rnd = Random.Range(0, 6);
 
         if (rnd == 0)
-            return puzzlesTypes.puzzleFarm.grass;
+            return (int)puzzleTypes.grass;
         else if (rnd == 1)
-            return puzzlesTypes.puzzleFarm.wheat;
+            return (int)puzzleTypes.wheat;
         else if (rnd == 2)
-            return puzzlesTypes.puzzleFarm.chicken;
+            return (int)puzzleTypes.chicken;
         else if (rnd == 3)
-            return puzzlesTypes.puzzleFarm.pig;
+            return (int)puzzleTypes.pig;
         else if (rnd == 4)
-            return puzzlesTypes.puzzleFarm.carrot;
+            return (int)puzzleTypes.carrot;
         else if (rnd == 5)
-            return puzzlesTypes.puzzleFarm.tree;
+            return (int)puzzleTypes.tree;
         else
-            return puzzlesTypes.puzzleFarm.grass;
+            return (int)puzzleTypes.grass;
     }
 
-    public abstract class puzzlesGamesTypes
+    /*public abstract class puzzlesGamesTypes
     {
         //-- classic
         public const int farm = 1;
         public const int mine = 2;
-    }
+    }*/
 
-    public abstract class puzzlesTypes
+    /*public abstract class puzzlesTypes
     {
         //-- classic
         public abstract class puzzleFarm
@@ -88,6 +88,34 @@ public class PuzzleDictionary : MonoBehaviour
             const int lava = 80;
         }
 
-    }
+    }*/
+
+    //-- classic
+    public enum puzzleTypes
+    {
+        // farm
+        grass,
+        wheat,
+        chicken, 
+        pig,
+        carrot,
+        tree,
+        //-- enemies 
+        // farm
+        rat,
+    /*}
+    public enum puzzleMine
+    {*/
+        // mine
+        dirt,
+        iron,
+        stone,
+        coal,
+        gold,
+        silver,
+        diamond,
+        // mine
+        lava = 80
+    }    
 
 }

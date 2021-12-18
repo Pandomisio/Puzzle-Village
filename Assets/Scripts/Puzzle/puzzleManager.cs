@@ -50,7 +50,8 @@ public class puzzleManager : MonoBehaviour
 
         UI_Manager._instance.SetMoves(2);
         Dictionary<int, int> AmountOfTools = new Dictionary<int,int>();
-        AmountOfTools.Add(0, 3);
+        //AmountOfTools.Add(PuzzleTools.tools.rake, 3);
+        AmountOfTools.Add((int)PuzzleTools.toolType.rake, 3);
         UI_Manager._instance.SetAmountOfTools(AmountOfTools);
 
         InitPuzzleGrid();
@@ -123,8 +124,8 @@ public class puzzleManager : MonoBehaviour
     public void FadeTypeOfPuzzle(int type)
     {
         //playerGatheringPuzzleType = type;
-
-        WhatTypesWeCanGather = BonusesManager.Instance.WhatTypesWeCanGather(type);
+        WhatTypesWeCanGather = BonusesManager.WhatTypesWeCanGather(type);
+        //WhatTypesWeCanGather = BonusesManager.Instance.WhatTypesWeCanGather(type);
         // We need to get types which we can combine
 
         foreach ( GameObject puzzle in gridOfPuzzles)
@@ -402,7 +403,8 @@ public class puzzleManager : MonoBehaviour
     {
         int ifWeGetSome = 0;
         // What this tool can do
-        List<int> TypesToGather = PuzzleTools.Instance.WhatToolBreak(idOfTool);
+        //List<int> TypesToGather = PuzzleTools.Instance.WhatToolBreak(idOfTool);
+        List<int> TypesToGather = PuzzleTools.WhatToolBreak(idOfTool);
 
         if (TypesToGather.Count > 0)
         {
