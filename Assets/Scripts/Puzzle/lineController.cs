@@ -66,10 +66,16 @@ public class lineController : MonoBehaviour
     {
         GameObject go = new GameObject();
         go.transform.position = new Vector3(pos.x,pos.y,-1f);
+        go.name = "NewLine";
         //go.transform.parent = transform;
         posToCorrect = pos;
         line = go.AddComponent<LineRenderer>();
         line.material = lineMaterial;
+
+        line.material.color = Color.white;
+
+        line.sortingOrder = 4;
+        line.sortingLayerName = "UI";
         
         line.positionCount = 0;
         line.startWidth = 0.15f;
