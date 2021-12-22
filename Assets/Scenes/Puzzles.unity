@@ -957,7 +957,7 @@ GameObject:
   - component: {fileID: 1322668699}
   - component: {fileID: 1322668698}
   m_Layer: 5
-  m_Name: ShovelButton
+  m_Name: ScytheButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -22,23 +22,35 @@ public class UI_Manager : MonoBehaviour
 
     #region usingTools
 
-    public void SetAmountOfTools(Dictionary<int,int> tools)
+    /* public void SetAmountOfTools(Dictionary<int,int> tools)
+     {
+         _amountOfTools = tools;
+         triggerInitToolsCounter();
+     }*/
+    public void UI_SetAmountInButtons()
     {
-        _amountOfTools = tools;
         triggerInitToolsCounter();
     }
-    
 
-    public void GetAmountOfTool(int type, UI_Button_Tool tool)
+
+    /*public void GetAmountOfTool(int type, UI_Button_Tool tool)
     {
         if (_amountOfTools.ContainsKey(type))
             tool.UpdateAmount(_amountOfTools[type],_maxTools);
         else
             tool.UpdateAmount(0, _maxTools);
+    }*/
+    public void UI_InitAmountOfTool(int type, UI_Button_Tool tool)
+    {
+        int quantity = ToolsManager.GetQuantity(type);
+        if (quantity > -1)
+            tool.UpdateAmount(quantity, _maxTools);
+        else
+            tool.UpdateAmount(0, _maxTools);
     }
-    
-    
-    public void UseTool(int type, UI_Button_Tool tool)
+
+
+    /*public void UseTool(int type, UI_Button_Tool tool)
     {
         if (_amountOfTools[type] > 0)
         {
@@ -53,8 +65,21 @@ public class UI_Manager : MonoBehaviour
             {
                 // Player get dont use a tool
             }
+        }       
+    }*/
+
+    public void UseTool(int type, UI_Button_Tool tool)
+    {      
+        if (puzzleManager.Instance.UsedTool(type))
+        {
+            ToolsManager.ToolGatharedResources(type);
+            Debug.Log("We used a tool");
+            tool.UpdateAmount(ToolsManager.GetQuantity(type), _maxTools);
         }
-        
+        else
+        {
+            // Player get dont use a tool
+        }      
     }
 
     #endregion

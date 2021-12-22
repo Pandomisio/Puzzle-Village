@@ -7,30 +7,28 @@ public class UI_Button_Tool : MonoBehaviour
 {
     int toolType;
     // public ToolType tools = new ToolType();
-    public PuzzleTools.toolType toolTypes = new PuzzleTools.toolType();
+    public ToolsManager.toolType toolTypes = new ToolsManager.toolType();
 
     private Button _btn;
     private Text _text;
 
-    void Start()
+    void Awake()
     {
-        toolType = 2;
+        //toolType = 2;
         _btn = GetComponent<Button>();
         _btn.onClick.AddListener(UseTool);
         _text = _btn.GetComponentInChildren<Text>();
 
-        // toolType = toolTypes;
-        // toolType store what we chosed in inspector
-        //toolTypes.ToString();
-        Debug.Log((int)System.Enum.Parse(typeof(PuzzleTools.toolType), toolTypes.ToString()));
-        toolType = (int)System.Enum.Parse( typeof(PuzzleTools.toolType) , toolTypes.ToString() );
+        //Debug.Log(toolTypes.ToString());    
+        //Debug.Log((int)System.Enum.Parse(typeof(ToolsManager.toolType), toolTypes.ToString()));
+        toolType = (int)System.Enum.Parse( typeof(ToolsManager.toolType) , toolTypes.ToString() );
 
-        UI_Manager.triggerInitToolsCounter += InitTool;
+        UI_Manager.triggerInitToolsCounter += UI_AddToTriggerToUpdate;
     }
 
-    private void InitTool()
+    private void UI_AddToTriggerToUpdate()
     {
-        UI_Manager._instance.GetAmountOfTool(toolType, this);
+        UI_Manager._instance.UI_InitAmountOfTool(toolType, this);
     }
 
     public void UseTool()
@@ -41,7 +39,8 @@ public class UI_Button_Tool : MonoBehaviour
 
     public void UpdateAmount(int amount , int maxTools)
     {
-        _text.text = "Rake: " +  amount + " / " + maxTools;
+        /*_text.text = "Rake: " +  amount + " / " + maxTools;*/
+        _text.text = toolTypes.ToString() + " " + amount + " / " + maxTools;
     }
 
 }

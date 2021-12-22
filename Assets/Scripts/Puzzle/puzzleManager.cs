@@ -53,9 +53,11 @@ public class puzzleManager : MonoBehaviour
         UI_Manager._instance.SetMoves(2);
         Dictionary<int, int> AmountOfTools = new Dictionary<int,int>();
         //AmountOfTools.Add(PuzzleTools.tools.rake, 3);
-        AmountOfTools.Add((int)PuzzleTools.toolType.rake, 3);
-        AmountOfTools.Add((int)PuzzleTools.toolType.scythe, 3);
-        UI_Manager._instance.SetAmountOfTools(AmountOfTools);
+        AmountOfTools.Add((int)ToolsManager.toolType.rake, 3);
+        AmountOfTools.Add((int)ToolsManager.toolType.scythe, 3);
+        //UI_Manager._instance.SetAmountOfTools(AmountOfTools);
+        ToolsManager.InitResources(AmountOfTools);
+        UI_Manager._instance.UI_SetAmountInButtons();
 
         InitPuzzleGrid();
     }
@@ -407,8 +409,9 @@ public class puzzleManager : MonoBehaviour
         int ifWeGetSome = 0;
         // What this tool can do
         //List<int> TypesToGather = PuzzleTools.Instance.WhatToolBreak(idOfTool);
-        List<int> TypesToGather = PuzzleTools.WhatToolBreak(idOfTool);
-
+        List<int> TypesToGather = ToolsManager.WhatToolBreak(idOfTool);
+        if (TypesToGather == null)
+            return false;
         if (TypesToGather.Count > 0)
         {
             Dictionary<int,int> puzzlesGathered = new Dictionary<int, int>();
