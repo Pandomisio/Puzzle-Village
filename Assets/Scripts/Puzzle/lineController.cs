@@ -29,11 +29,11 @@ public class lineController : MonoBehaviour
     public void NewPuzzleSelected( Vector2 selectedPuzzlePosInArray)
     {
         if (line == null)                 
-            NewLine(selectedPuzzlePosInArray);  
+            NewLine(new Vector3 (selectedPuzzlePosInArray.x ,selectedPuzzlePosInArray.y, -1f) );  
         
         line.positionCount++;
 
-        Vector3 newPos = new Vector3(selectedPuzzlePosInArray.x - posToCorrect.x, selectedPuzzlePosInArray.y - posToCorrect.y, -.5f);
+        Vector3 newPos = new Vector3(selectedPuzzlePosInArray.x - posToCorrect.x, selectedPuzzlePosInArray.y - posToCorrect.y, -1f);
 
         line.SetPosition(lineCounter, newPos);
 
@@ -62,10 +62,11 @@ public class lineController : MonoBehaviour
             Destroy(line.gameObject);
     }
 
-    private void NewLine(Vector2 pos)
+    private void NewLine(Vector3 pos)
     {
         GameObject go = new GameObject();
-        go.transform.position = new Vector3(pos.x,pos.y,-.5f);
+        go.transform.position = new Vector3(pos.x,pos.y,-1f);
+        //go.transform.parent = transform;
         posToCorrect = pos;
         line = go.AddComponent<LineRenderer>();
         line.material = lineMaterial;

@@ -130,7 +130,7 @@ public class RayCaster : MonoBehaviour
            
         else if (endTouching)
         {
-            puzzleManager.Instance.FingerUp();
+            puzzleGrid.Instance.FingerUp();
             //Debug.Log("Grid FingerUp");
         }           
     }

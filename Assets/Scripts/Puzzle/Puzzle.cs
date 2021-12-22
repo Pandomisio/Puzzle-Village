@@ -111,7 +111,7 @@ public class Puzzle : MonoBehaviour
         // Scale it a bit down
         transform.localScale = new Vector3(downSizeScale, downSizeScale, downSizeScale);
         isSelectedPuzzle = true;
-        puzzleManager.Instance.PlayerSelectedPuzzle(newLocation,posInArray);
+        puzzleGrid.Instance.PlayerSelectedPuzzle(newLocation,posInArray);
         //grid.PlayerSelectedPuzzle(newLocation, posInArray);
     }
 
@@ -178,8 +178,8 @@ public class Puzzle : MonoBehaviour
     {
         /*grid.FadeTypeOfPuzzle(type);
         grid.ActivatePuzzlesAround(posInArray);*/
-        puzzleManager.Instance.FadeTypeOfPuzzle(type);
-        puzzleManager.Instance.ActivatePuzzlesAround(posInArray);
+        puzzleGrid.Instance.FadeTypeOfPuzzle(type);
+        puzzleGrid.Instance.ActivatePuzzlesAround(posInArray);
         //this.canBeSelected = true;
     }
 
@@ -188,14 +188,14 @@ public class Puzzle : MonoBehaviour
         if (playerUseFinger && canBeSelected && !isSelectedPuzzle)
         {
             SelectedPuzzle();
-            puzzleManager.Instance.ActivatePuzzlesAround(posInArray);
+            puzzleGrid.Instance.ActivatePuzzlesAround(posInArray);
             //grid.ActivatePuzzlesAround(posInArray);
         }
         else if (playerUseFinger && !canBeSelected && isSelectedPuzzle)
         {
             //Debug.Log("We try to unselect puzzle");
             //grid.TryUnselectPuzzle(posInArray);
-            puzzleManager.Instance.TryUnselectPuzzle(posInArray);
+            puzzleGrid.Instance.TryUnselectPuzzle(posInArray);
         }
 
     }
