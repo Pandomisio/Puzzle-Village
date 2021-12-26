@@ -2,10 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
     public static UI_Manager _instance;
+
+    [SerializeField] private Text _movesCounter;
 
     private Dictionary<int, int> _amountOfTools;
 
@@ -92,14 +95,16 @@ public class UI_Manager : MonoBehaviour
     {
         _moves = moves;
         _maxMoves = moves;
-        Debug.Log("Set maxMoves");     
+        //Debug.Log("Set maxMoves");     
+        _movesCounter.text = "Moves: " + _moves + "/" + _maxMoves;
     }
     
 
     public void PlayerMoved()
     {
         _moves--;
-        Debug.Log("PlayerMoves moves:" + _moves + " / " + _maxMoves);
+        _movesCounter.text = "Moves: " + _moves + "/" + _maxMoves;
+        //Debug.Log("PlayerMoves moves:" + _moves + " / " + _maxMoves);
         if (_moves < 1)
         {
             EndPuzzleRound();

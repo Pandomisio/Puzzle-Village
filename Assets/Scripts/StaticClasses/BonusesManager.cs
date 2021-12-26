@@ -7,6 +7,7 @@ public static class BonusesManager //: MonoBehaviour
     //public static BonusesManager Instance;
 
     private static bool buildForester;
+
     /*
     private static bool buildForester;
     private static bool buildForester;
@@ -20,6 +21,7 @@ public static class BonusesManager //: MonoBehaviour
 
         buildForester = true;
     }*/
+
 
 
     public static List<int> WhatTypesWeCanGather(int type)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Reflection;
 
 public class puzzleManager : MonoBehaviour
 {
@@ -24,21 +25,25 @@ public class puzzleManager : MonoBehaviour
         if (Instance == null)
             Instance = this;
     }
+
     public void Start()
     {
         puzzleGrid = GetComponent<puzzleGrid>();
         puzzleGrid.InitPuzzleGrid(width, height , offset, minPuzzleToGather);
 
+        //Moves should be there
         UI_Manager._instance.SetMoves(2);
+
+        //Init tools
         Dictionary<int, int> AmountOfTools = new Dictionary<int,int>();
-        //AmountOfTools.Add(PuzzleTools.tools.rake, 3);
         AmountOfTools.Add((int)ToolsManager.toolType.rake, 3);
         AmountOfTools.Add((int)ToolsManager.toolType.scythe, 3);
-        //UI_Manager._instance.SetAmountOfTools(AmountOfTools);
         ToolsManager.InitResources(AmountOfTools);
+        //Init tool buttons
         UI_Manager._instance.UI_SetAmountInButtons();
-
-
+        // Init resource Manager
+        Dictionary<int, int> resources = new Dictionary<int, int>();
+        ResourcesManager.InitResources(resources);
 
         //InitPuzzleGrid();
     }  
@@ -46,13 +51,26 @@ public class puzzleManager : MonoBehaviour
     
     public void SaveOurGatheredPuzzles(Dictionary<int,int> gatheredPuzzles)
     {
-        foreach (KeyValuePair<int,int> entry in gatheredPuzzles)
+        /*foreach (KeyValuePair<int,int> entry in gatheredPuzzles)
         {
             Debug.Log("Zebra³eœ: " + entry.Key + " w iloœci: " + entry.Value);
-        }
+        }*/
 
         // Activate storage with this dictionary to save his gathered Puzzles
-    }  
+        //Debug.Log("Giving resources to ResourcesManager");
+        ClearLog();
+
+        ResourcesManager.PlayerGatharedResources(gatheredPuzzles);
+    }
+
+    public void ClearLog()
+    {
+        var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
+        var type = assembly.GetType("UnityEditor.LogEntries");
+        var method = type.GetMethod("Clear");
+        method.Invoke(new object(), null);
+        Debug.Log("ClearLog from puzzleManager");
+    }
 
     public void FingerUp()
     {

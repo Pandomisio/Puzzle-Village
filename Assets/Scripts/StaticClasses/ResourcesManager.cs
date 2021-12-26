@@ -22,8 +22,12 @@ public static class ResourcesManager
             foreach (KeyValuePair<int, int> entry in gatheredResources)
             {
                 //Debug.Log("Zebra³eœ: " + entry.Key + " w iloœci: " + entry.Value);
-                _recources[entry.Key] += entry.Value;
+                if (_recources.ContainsKey(entry.Key))
+                    _recources[entry.Key] += entry.Value;
+                else
+                    _recources.Add(entry.Key, entry.Value);
             }
+            PlayerResources_DEBUG();
             return true;
         }
         else
@@ -47,5 +51,21 @@ public static class ResourcesManager
             return false;
         
     }
-    
+
+    public static bool PlayerResources_DEBUG()
+    {
+        if (_recourcesLoaded)
+        {
+            Debug.Log("Our resources:");
+            foreach (KeyValuePair<int, int> entry in _recources)
+            {
+                Debug.Log("Zebra³eœ: " + entry.Key + " w iloœci: " + entry.Value);               
+            }
+            return true;
+        }
+        else
+            return false;
+
+    }
+
 }

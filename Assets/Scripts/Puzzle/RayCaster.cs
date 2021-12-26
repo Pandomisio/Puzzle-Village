@@ -37,7 +37,7 @@ public class RayCaster : MonoBehaviour
                 else if (touch.phase == TouchPhase.Moved)
                 {
                     
-                    Debug.Log("Touch moved");
+                    //Debug.Log("Touch moved");
                     keepTouching = true;
                     firstTouch = false;
                     CastARay(touch);
@@ -67,7 +67,7 @@ public class RayCaster : MonoBehaviour
                     //RayCast(Input.GetTouch(i));     */
                     if (!firstTouch && keepTouching)
                     {
-                        Debug.Log("Touch Canceled");
+                        //Debug.Log("Touch Canceled");
                         keepTouching = false;
                         endTouching = true;
                         CastARay(touch);
@@ -115,7 +115,7 @@ public class RayCaster : MonoBehaviour
 
     private void WorkWithPuzzle(Puzzle puzzle)
     {
-        Debug.Log("We have an puzzle");
+        //Debug.Log("We have an puzzle");
 
         if (firstTouch)
         {
