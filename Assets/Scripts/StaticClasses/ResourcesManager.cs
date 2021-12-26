@@ -11,7 +11,8 @@ public static class ResourcesManager
     public static void InitResources(Dictionary<int,int> loadedResources)
     {
         // if we lack of smth we have to set it on 0
-        _recources = loadedResources;
+        if (_recourcesLoaded == false)
+            _recources = loadedResources;
         _recourcesLoaded = true;
     }
 

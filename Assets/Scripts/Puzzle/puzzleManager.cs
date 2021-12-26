@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
+using UnityEngine.SceneManagement;
 
 public class puzzleManager : MonoBehaviour
 {
@@ -47,6 +48,11 @@ public class puzzleManager : MonoBehaviour
 
         //InitPuzzleGrid();
     }  
+
+    public void MaxMovesReached()
+    {
+        SceneManager.LoadScene("MainScene");
+    }
 
     
     public void SaveOurGatheredPuzzles(Dictionary<int,int> gatheredPuzzles)

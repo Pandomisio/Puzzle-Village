@@ -121,6 +121,8 @@ public class UI_Manager : MonoBehaviour
     {
         // ShowUp Summary
         Debug.Log("Max round reached");
+        puzzleManager.Instance.MaxMovesReached();
+        
     }
 
     #endregion
