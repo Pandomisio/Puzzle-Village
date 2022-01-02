@@ -28,7 +28,9 @@ public static class ResourcesManager
                 else
                     _recources.Add(entry.Key, entry.Value);
             }
+#if UNITY_EDITOR
             PlayerResources_DEBUG();
+#endif
             return true;
         }
         else

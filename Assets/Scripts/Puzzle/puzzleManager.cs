@@ -12,6 +12,7 @@ public class puzzleManager : MonoBehaviour
 
     [SerializeField] int minPuzzleToGather = 3;
     [SerializeField] float offset = 1.2f;
+    [SerializeField] short roundLIMIT;
     // Our prefabs
     // public GameObject[] puzzlePrefabs;
 
@@ -33,13 +34,13 @@ public class puzzleManager : MonoBehaviour
         puzzleGrid.InitPuzzleGrid(width, height , offset, minPuzzleToGather);
 
         //Moves should be there
-        UI_Manager._instance.SetMoves(2);
+        UI_Manager._instance.SetMoves(roundLIMIT);
 
         //Init tools
         Dictionary<int, int> AmountOfTools = new Dictionary<int,int>();
         AmountOfTools.Add((int)ToolsManager.toolType.rake, 3);
         AmountOfTools.Add((int)ToolsManager.toolType.scythe, 3);
-        ToolsManager.InitResources(AmountOfTools);
+        ToolsManager.InitToolsQuantity(AmountOfTools);
         //Init tool buttons
         UI_Manager._instance.UI_SetAmountInButtons();
         // Init resource Manager
@@ -71,11 +72,13 @@ public class puzzleManager : MonoBehaviour
 
     public void ClearLog()
     {
+#if UNITY_EDITOR
         var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
         var type = assembly.GetType("UnityEditor.LogEntries");
         var method = type.GetMethod("Clear");
         method.Invoke(new object(), null);
         Debug.Log("ClearLog from puzzleManager");
+#endif
     }
 
     public void FingerUp()

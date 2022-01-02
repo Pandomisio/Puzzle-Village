@@ -120,6 +120,7 @@ public class RayCaster : MonoBehaviour
         if (firstTouch)
         {
             puzzle.OnClick();
+            puzzle.OnOver();
             //Debug.Log("Puzzle OnClick");
         }            
         else if (keepTouching)

@@ -8,10 +8,11 @@ public static class ToolsManager// : MonoBehaviour
     private static bool _toolsLoaded;
 
 
-    public static void InitResources(Dictionary<int, int> loadedTools)
+    public static void InitToolsQuantity(Dictionary<int, int> loadedTools)
     {
         // if we lack of smth we have to set it on 0
-        _tools = loadedTools;
+        if (_toolsLoaded == false)
+            _tools = loadedTools;
         _toolsLoaded = true;
     }
 
