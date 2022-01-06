@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class ResourcesManager
 {
+
+   // public static Dictionary<Sprite,AllResources> allResources = new Dictionary<Sprite, AllResources>();
     private static bool _recourcesLoaded;
 
     private static Dictionary<int, int> _recources;
@@ -70,5 +72,32 @@ public static class ResourcesManager
             return false;
 
     }
+    public static Dictionary<int,int> GetPlayerResorces()
+    {
+        if (_recourcesLoaded)
+            return _recources;
+        return null;
+    }
+    /*
+    public enum AllResources
+    {
+        coins,
+        glory,
+        crystals,
+        grass,
+        wheat,
+        chicken,
+        pig,
+        carrot,
+        tree,
+        dirt,
+        iron,
+        stone,
+        coal,
+        gold,
+        silver,
+        diamond
+    };
+    */
 
 }

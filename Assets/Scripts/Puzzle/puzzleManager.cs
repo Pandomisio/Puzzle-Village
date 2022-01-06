@@ -6,13 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class puzzleManager : MonoBehaviour
 {
-    public static puzzleManager Instance;
+    public static puzzleManager _instance;
 
     private puzzleGrid puzzleGrid;
 
     [SerializeField] int minPuzzleToGather = 3;
     [SerializeField] float offset = 1.2f;
     [SerializeField] short roundLIMIT;
+
+    [SerializeField] PuzzlesAssets puzzlesAssets;
+
     // Our prefabs
     // public GameObject[] puzzlePrefabs;
 
@@ -24,8 +27,8 @@ public class puzzleManager : MonoBehaviour
 
     public void Awake()
     {
-        if (Instance == null)
-            Instance = this;
+        if (_instance == null)
+            _instance = this;
     }
 
     public void Start()
@@ -34,8 +37,9 @@ public class puzzleManager : MonoBehaviour
         puzzleGrid.InitPuzzleGrid(width, height , offset, minPuzzleToGather);
 
         //Moves should be there
-        UI_Manager._instance.SetMoves(roundLIMIT);
+        UI_Manager._instance.SetMoves(BonusesManager.GetHowManyMoves());
 
+        //This parts should be loaded with start of a game
         //Init tools
         Dictionary<int, int> AmountOfTools = new Dictionary<int,int>();
         AmountOfTools.Add((int)ToolsManager.toolType.rake, 3);
@@ -49,6 +53,44 @@ public class puzzleManager : MonoBehaviour
 
         //InitPuzzleGrid();
     }  
+
+    public GameObject GetPuzzle()
+    {
+        int lotery = NewPuzzle();
+        GameObject newPuzzle = null;
+        Debug.Log(lotery);
+        foreach (var puzzle in puzzlesAssets._puzzles)
+        {
+            Debug.Log((int)puzzle._type);
+            if (lotery == (int)puzzle._type)
+            {
+                newPuzzle = puzzle._prefab;
+                break;
+            }
+        }
+        Debug.Log(newPuzzle);
+        return newPuzzle;
+    }
+
+    private int NewPuzzle()
+    {
+        int rnd = Random.Range(0, 6);
+
+        if (rnd == 0)
+            return (int)PuzzlesAssets.puzzleTypes.grass;
+        else if (rnd == 1)
+            return (int)PuzzlesAssets.puzzleTypes.wheat;
+        else if (rnd == 2)
+            return (int)PuzzlesAssets.puzzleTypes.chicken;
+        else if (rnd == 3)
+            return (int)PuzzlesAssets.puzzleTypes.pig;
+        else if (rnd == 4)
+            return (int)PuzzlesAssets.puzzleTypes.carrot;
+        else if (rnd == 5)
+            return (int)PuzzlesAssets.puzzleTypes.tree;
+        else
+            return (int)PuzzlesAssets.puzzleTypes.grass;
+    }
 
     public void MaxMovesReached()
     {

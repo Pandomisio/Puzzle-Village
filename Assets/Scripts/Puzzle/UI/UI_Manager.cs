@@ -73,7 +73,7 @@ public class UI_Manager : MonoBehaviour
 
     public void UseTool(int type, UI_Button_Tool tool)
     {      
-        if (puzzleManager.Instance.UsedTool(type))
+        if (puzzleManager._instance.UsedTool(type))
         {
             ToolsManager.ToolGatharedResources(type);
             Debug.Log("We used a tool");
@@ -121,7 +121,7 @@ public class UI_Manager : MonoBehaviour
     {
         // ShowUp Summary
         Debug.Log("Max round reached");
-        puzzleManager.Instance.MaxMovesReached();
+        puzzleManager._instance.MaxMovesReached();
         
     }
 

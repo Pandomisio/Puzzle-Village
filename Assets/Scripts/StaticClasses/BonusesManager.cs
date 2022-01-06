@@ -5,23 +5,16 @@ using UnityEngine;
 public static class BonusesManager //: MonoBehaviour
 {
     //public static BonusesManager Instance;
+    private static short allowedMove = 3;
 
-    private static bool buildForester;
+    private static bool buildForester = true;
 
-    /*
-    private static bool buildForester;
-    private static bool buildForester;
-    private static bool buildForester;
-    */
+    public static short GetHowManyMoves() => allowedMove;
 
-    /*private void Awake()
+    public static void NewBuilding()
     {
-        if (Instance == null)
-            Instance = this;
 
-        buildForester = true;
-    }*/
-
+    }
 
 
     public static List<int> WhatTypesWeCanGather(int type)
@@ -29,19 +22,19 @@ public static class BonusesManager //: MonoBehaviour
 
         switch (type)
         {
-            case (int)PuzzleDictionary.puzzleTypes.tree:
+            case (int)ResourcesAssets.AllResources.tree:
                 {
                     List<int> typesToMix = new List<int>();
                     if (buildForester)
                     {
                         //Debug.Log("Forester");
-                        typesToMix.Add((int)PuzzleDictionary.puzzleTypes.tree);
-                        typesToMix.Add((int)PuzzleDictionary.puzzleTypes.grass);
+                        typesToMix.Add((int)ResourcesAssets.AllResources.tree);
+                        typesToMix.Add((int)ResourcesAssets.AllResources.grass);
                         return typesToMix;
                     }
                     else
                     {
-                        typesToMix.Add((int)PuzzleDictionary.puzzleTypes.tree);
+                        typesToMix.Add((int)ResourcesAssets.AllResources.tree);
                         return typesToMix;
                     }
 

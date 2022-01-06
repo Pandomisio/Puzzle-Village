@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2129c7174b1e3b46b58f5311ffc17f9, type: 3}
+  m_Name: RecourcesAssets
+  m_EditorClassIdentifier: 
+  _resources:
+  - _enumType: 3
+    _icon: {fileID: 21300000, guid: 2e09dc810b00ce345a196d55e8fa4626, type: 3}
+    _sellValue: 0
+    _buyValue: 0
+  - _enumType: 4
+    _icon: {fileID: 21300000, guid: 562aed9249538ea429899718bbd2daa2, type: 3}
+    _sellValue: 0
+    _buyValue: 0
+  - _enumType: 5
+    _icon: {fileID: 21300000, guid: db998ea19cd7fca4f9ec16741cba14b4, type: 3}
+    _sellValue: 0
+    _buyValue: 0
+  - _enumType: 6
+    _icon: {fileID: 21300000, guid: baba435302bb7994fa356853d100c8b1, type: 3}
+    _sellValue: 0
+    _buyValue: 0
+  - _enumType: 7
+    _icon: {fileID: 21300000, guid: 8a48c5900a8fc9144ab09d2d702e256e, type: 3}
+    _sellValue: 0
+    _buyValue: 0
+  - _enumType: 8
+    _icon: {fileID: 21300000, guid: 2dc795528f59260488b4de3f6c21558d, type: 3}
+    _sellValue: 0
+    _buyValue: 0

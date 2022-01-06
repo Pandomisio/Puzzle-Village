@@ -40,6 +40,7 @@ public class UI_Manager_MainScene : MonoBehaviour
                 {
                     _housesToBuildTab.gameObject.SetActive(false);
                     _bottomButtons.gameObject.SetActive(true);
+                    _topInfo.gameObject.SetActive(true);
                     break;
                 }
             case UI_Element.market:
@@ -66,6 +67,7 @@ public class UI_Manager_MainScene : MonoBehaviour
                 {
                     _housesToBuildTab.gameObject.SetActive(true);
                     _bottomButtons.gameObject.SetActive(false);
+                    _topInfo.gameObject.SetActive(false);
                     break;
                 }
             case UI_Element.market:

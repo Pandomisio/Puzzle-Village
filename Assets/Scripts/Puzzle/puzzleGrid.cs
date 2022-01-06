@@ -68,7 +68,8 @@ public class puzzleGrid : MonoBehaviour
         {
             for (int j = 0; j < height + 1; j++)
             {
-                GameObject newPuzzle = PuzzleDictionary.Instance.GetPuzzle();
+                //GameObject newPuzzle = PuzzleDictionary.Instance.GetPuzzle();
+                GameObject newPuzzle = puzzleManager._instance.GetPuzzle();
                 Vector3 childScale = newPuzzle.transform.localScale;
                 Vector3 vector3 = PositionForPuzzle(i + (i * childScale.x), j + (j * childScale.y));
 
@@ -76,7 +77,7 @@ public class puzzleGrid : MonoBehaviour
                 {
                     gridOfPuzzles[i, j] = Instantiate(newPuzzle, vector3, transform.rotation);
                     gridOfPuzzles[i, j].transform.parent = transform;
-                    gridOfPuzzles[i, j].GetComponent<Puzzle>().SetUpType(PuzzleDictionary.Instance.GetPuzzleType());
+                    //gridOfPuzzles[i, j].GetComponent<Puzzle>().SetUpType(PuzzleDictionary.Instance.GetPuzzleType());
                     gridOfPuzzles[i, j].GetComponent<Puzzle>().SetPositionInArray(new Vector2(i, j));
                 }
                 positionOfPuzzlesXY[i, j] = new Vector2(vector3.x, vector3.y);
@@ -281,7 +282,7 @@ public class puzzleGrid : MonoBehaviour
     }
     private void SaveOurGatheredPuzzles(Dictionary<int, int> gatheredPuzzles)
     {
-        puzzleManager.Instance.SaveOurGatheredPuzzles(gatheredPuzzles);
+        puzzleManager._instance.SaveOurGatheredPuzzles(gatheredPuzzles);
     }
 
     private void SortOutGrid()
@@ -336,7 +337,8 @@ public class puzzleGrid : MonoBehaviour
                 if (gridOfPuzzles[i, j] == null)
                 {
 
-                    GameObject newPuzzle = PuzzleDictionary.Instance.GetPuzzle();
+                    //GameObject newPuzzle = PuzzleDictionary.Instance.GetPuzzle();
+                    GameObject newPuzzle = puzzleManager._instance.GetPuzzle();
                     Vector3 childScale = newPuzzle.transform.localScale;
                     Vector3 vector3 = PositionForPuzzle(i + (i * childScale.x), j + (j * childScale.y));
 
@@ -344,7 +346,7 @@ public class puzzleGrid : MonoBehaviour
 
                     gridOfPuzzles[i, j].transform.parent = transform;
                     Puzzle puzzle = gridOfPuzzles[i, j].GetComponent<Puzzle>();
-                    puzzle.SetUpType(PuzzleDictionary.Instance.GetPuzzleType());
+                    //puzzle.SetUpType(PuzzleDictionary.Instance.GetPuzzleType());
                     puzzle.GiveNewPosition(vector3);
                     puzzle.SetPositionInArray(new Vector2(i, j));
                 }

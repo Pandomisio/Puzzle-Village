@@ -18,6 +18,10 @@ public static class ToolsManager// : MonoBehaviour
 
     public static List<int> WhatToolBreak(int idOfTool)
     {
+
+        // Loot by puzzleID not resourceID ?
+        // Or leave puzzleID only for creating grid and managing him?
+        // This could give us diffrent puzzles with same value ( kind of skins )
         if (_toolsLoaded && CheckToolQuantity(idOfTool))
         {
             List<int> list = new List<int>();
@@ -26,18 +30,18 @@ public static class ToolsManager// : MonoBehaviour
             {
                 case (int)toolType.rake:
                     {
-                        list.Add((int)PuzzleDictionary.puzzleTypes.grass);
+                        list.Add((int)ResourcesAssets.AllResources.grass);
                         return list;
                     }
 
                 case (int)toolType.shovel:
                     {
-                        list.Add((int)PuzzleDictionary.puzzleTypes.dirt);
+                        list.Add((int)ResourcesAssets.AllResources.dirt);
                         return list;
                     }
                 case (int)toolType.scythe:
                     {
-                        list.Add((int)PuzzleDictionary.puzzleTypes.wheat);
+                        list.Add((int)ResourcesAssets.AllResources.wheat);
                         return list;
                     }
                 default:
@@ -69,10 +73,6 @@ public static class ToolsManager// : MonoBehaviour
             return -1;
     }
 
-    /*public abstract class tools
-    {
-        public const int rake = 0;
-    }*/
     public enum toolType
     {
         // They have id 0,1,2...
@@ -80,10 +80,4 @@ public static class ToolsManager// : MonoBehaviour
         shovel,
         scythe
     }
-
-    /*public enum toolTypeValue : int
-    {
-        rake = 0,
-        shovel = 1
-    }*/
 }

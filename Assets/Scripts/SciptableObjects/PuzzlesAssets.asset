@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23af34649b6dc8e4887d9c54e717b838, type: 3}
+  m_Name: PuzzlesAssets
+  m_EditorClassIdentifier: 
+  _puzzles:
+  - _type: 0
+    _prefab: {fileID: 3484720283281838712, guid: 312e0d12b5d10f9428864b8e8c9aee16, type: 3}
+  - _type: 1
+    _prefab: {fileID: 1526690735436409882, guid: 57d776664812a3f42bce026049a8977b, type: 3}
+  - _type: 2
+    _prefab: {fileID: 4310222508291353907, guid: 5a9b5050454b0344cb3a81459159f9e9, type: 3}
+  - _type: 3
+    _prefab: {fileID: 3991442314849410140, guid: c9d78e40770053f4690dc09015972e29, type: 3}
+  - _type: 4
+    _prefab: {fileID: 2347832810301444814, guid: b76101a3fdddd4f41beb4bf9f81691a1, type: 3}
+  - _type: 5
+    _prefab: {fileID: 5670850157510303922, guid: 9050bbee4d2db0c4facf067588458268, type: 3}

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Puzzle : MonoBehaviour
 {
-    [SerializeField] private int type;
+    private int type;
     [SerializeField] private float downSizeScale = 0.35f;
-    
+
+    [SerializeField] ResourcesAssets.AllResources resourceType = new ResourcesAssets.AllResources();
+
     private Vector3 defaultScale;
     
     //private puzzleGrid grid;
@@ -36,9 +38,7 @@ public class Puzzle : MonoBehaviour
         defaultScale = transform.localScale;
         playerUseFinger = false;
 
-/*        grid = GetComponentInParent<puzzleGrid>();
-        if (grid == null)
-            Debug.LogError("No puzzleGrid componnent");*/
+        type = (int)System.Enum.Parse(typeof(ResourcesAssets.AllResources), resourceType.ToString());
     }
 
     private void Update()
@@ -68,8 +68,6 @@ public class Puzzle : MonoBehaviour
     }
 
     public int GetPuzzleType() => type;
-
-    public void SetUpType(int type) => this.type = type;
     //
     public void SetPlayerDoesntUseFigner() => playerUseFinger = false;
     public void SetPlayerUseFinger() => playerUseFinger = true;

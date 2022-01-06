@@ -26,6 +26,12 @@ public class PuzzleDictionary : MonoBehaviour
     {
         latestPuzzleType = WhatPuzzle();  
         return prefabs[latestPuzzleType];
+
+        // TODO ADD TO THEM AllRESOURCES ENUMTYPE
+        /*
+         * Jak w scriptable objectie
+         * struct z gameobjectem puzzla oraz enumType z AllResources
+         */
     }
     public int GetPuzzleType() => latestPuzzleType;
 
@@ -48,48 +54,6 @@ public class PuzzleDictionary : MonoBehaviour
         else
             return (int)puzzleTypes.grass;
     }
-
-    /*public abstract class puzzlesGamesTypes
-    {
-        //-- classic
-        public const int farm = 1;
-        public const int mine = 2;
-    }*/
-
-    /*public abstract class puzzlesTypes
-    {
-        //-- classic
-        public abstract class puzzleFarm
-        {
-            // farm
-            public const int grass = 0;
-            public const int wheat = 1;
-            public const int chicken = 2;
-            public const int pig = 3;
-            public const int carrot = 4;
-            public const int tree = 5;
-
-            //-- enemies 
-            // farm
-            const int rat = 40;
-        }
-        public abstract class puzzleMine
-        {
-            // mine
-            public const int dirt = 50;
-            public const int iron = 51;
-            public const int stone = 52;
-            public const int coal = 53;
-            public const int gold = 54;
-            public const int silver = 55;
-            public const int diamond = 56;
-
-            // mine
-            const int lava = 80;
-        }
-
-    }*/
-
     //-- classic
     public enum puzzleTypes
     {
@@ -115,7 +79,7 @@ public class PuzzleDictionary : MonoBehaviour
         silver,
         diamond,
         // mine
-        lava = 80
+        lava
     }    
 
 }
