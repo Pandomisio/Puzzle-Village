@@ -39,6 +39,23 @@ public static class BonusesManager //: MonoBehaviour
                     }
 
                 }
+            case (int)ResourcesAssets.AllResources.grass:
+                {
+                    List<int> typesToMix = new List<int>();
+                    if (buildForester)
+                    {
+                        //Debug.Log("Forester");
+                        typesToMix.Add((int)ResourcesAssets.AllResources.tree);
+                        typesToMix.Add((int)ResourcesAssets.AllResources.grass);
+                        return typesToMix;
+                    }
+                    else
+                    {
+                        typesToMix.Add((int)ResourcesAssets.AllResources.tree);
+                        return typesToMix;
+                    }
+
+                }
             default:
                 {
                     List<int> typesToMix = new List<int>();

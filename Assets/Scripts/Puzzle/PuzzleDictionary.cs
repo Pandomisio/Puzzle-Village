@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PuzzleDictionary : MonoBehaviour
 {
+
+    // Not used in project anymore
+    // Grid generate in puzzleManager
+    // Puzzles and enumtype in PuzzleAssets
+
     public static PuzzleDictionary Instance;
 
     public List<GameObject> prefabs;
