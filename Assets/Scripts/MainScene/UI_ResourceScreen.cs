@@ -12,17 +12,26 @@ public class UI_ResourceScreen : MonoBehaviour
     void OnEnable()
     {
         //Debug.Log("PrintOnEnable: script was enabled");
+
+        // TO DEBUG
+        Dictionary<int,int> resources = new Dictionary<int, int>();
+        for ( int i = 3; i < 9; i++ )
+        {
+            resources.Add(i, 5);
+            ResourcesManager.InitResources(resources);
+        }
+        
         _resources = ResourcesManager.GetPlayerResorces();
         DisplayResources();
     }
     void OnDisable()
     {
-        foreach ( Transform child in _gridParent.GetComponent<RectTransform>().transform )
-        //foreach (Transform child in _gridParent.transform)
+        //foreach ( Transform child in _gridParent.GetComponent<RectTransform>().transform )
+        foreach (Transform child in _gridParent.transform)
         {
             //child.setActive(false);
-            child.transform.gameObject.SetActive( false );
-            Destroy(child);
+            Destroy(child.gameObject);
+            //Destroy(child);
         }
     }
     void DisplayResources()
