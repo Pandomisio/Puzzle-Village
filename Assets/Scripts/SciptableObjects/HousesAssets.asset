@@ -10,12 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2837548a848c6a4387f0e51f40bd1d8, type: 3}
-  m_Name: BuildingAssets
+  m_Name: HousesAssets
   m_EditorClassIdentifier: 
   _buildings:
   - _enumType: 0
     _sprite: {fileID: 0}
-  - _enumType: 0
+    _levelsOfBuilding: []
+  - _enumType: 1
     _sprite: {fileID: 0}
-  - _enumType: 0
+    _levelsOfBuilding:
+    - _requireResources:
+      - _requiredResource: 4
+        _amountOfResource: 10
+  - _enumType: 2
     _sprite: {fileID: 0}
+    _levelsOfBuilding:
+    - _requireResources:
+      - _requiredResource: 5
+        _amountOfResource: 20
+  - _enumType: 3
+    _sprite: {fileID: 0}
+    _levelsOfBuilding:
+    - _requireResources:
+      - _requiredResource: 4
+        _amountOfResource: 30

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RecourcesAssets", menuName = "ScriptableObjects/RecourcesAssets", order = 3)]
-class ResourcesAssets : ScriptableObject
+public class ResourcesAssets : ScriptableObject
 {
     public SpriteWithValues[] _resources;
 
@@ -19,7 +19,6 @@ class ResourcesAssets : ScriptableObject
 
     // Przenieœc mo¿e tutaj wszystko co z nimi zwi¹zane poza zarz¹dzaniem
     // i mean wartoœæ sprzeda¿y np typy czyli enum z ResourceManagera wyciagn¹æ itp
-
     public enum AllResources
     {
         coins,
