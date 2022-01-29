@@ -68,7 +68,7 @@ public class MainSceneManager : MonoBehaviour
         {
             int id = house.Key;
             //Debug.Log(((HousesAssets.BuildingType)house.Key).ToString() + " " + id);
-            Sprite sprite = null;// _housesAssets._buildings[id]._sprite;
+            Sprite sprite = _housesAssets._buildings[id]._sprite;
             house_GridElementDatas.Add(new House_GridElementData(
                 id,
                 ((HousesAssets.BuildingType)house.Key).ToString(),
@@ -83,7 +83,7 @@ public class MainSceneManager : MonoBehaviour
     {
         string name = ((HousesAssets.BuildingType)id).ToString();
         Debug.Log(name);
-        Sprite houseSprite = null;
+        Sprite houseSprite = _housesAssets._buildings[id]._sprite;
         List<ResourcesForHouse> resources = new List<ResourcesForHouse>();
         // Get list of res for specific lvl
         List<HousesAssets.RequireResources> resourcesForBuidling =

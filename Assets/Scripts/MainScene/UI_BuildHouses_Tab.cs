@@ -10,27 +10,16 @@ public class UI_BuildHouses_Tab : MonoBehaviour
     [SerializeField] GameObject _gridElement;
     [SerializeField] GameObject _houseInfoTab;
 
+    GameObject _openedHouseInfo;
+
     void OnEnable()
     {
-        //Debug.Log("PrintOnEnable: script was enabled");
-        //Dictionary<int, int>  _buildedHouses = new Dictionary<int, int>();
-
-        /* // DEBUG     
-         Dictionary<int,int> houses = new Dictionary<int, int>();
-         for (int i = 3; i < 4; i++)
-         {
-             houses.Add(i, 3);
-         }
-         HousesManager.InitBuildings(houses);
-         _buildedHouses = HousesManager.GetBuildedHouses();*/
-
-        //_preparedDictionary = PreparedDictionaryOfHouses(_buildedHouses);
-        //DisplayResources();
-
         DisplayRes();
     }
     void OnDisable()
     {
+        if (_openedHouseInfo != null)
+            Destroy(_openedHouseInfo.gameObject);
         //foreach ( Transform child in _gridParent.GetComponent<RectTransform>().transform )
         foreach (Transform child in _gridParent.transform)
         {
@@ -141,5 +130,6 @@ public class UI_BuildHouses_Tab : MonoBehaviour
             house._icon,
             house._resourcesForHouses
             );
+        _openedHouseInfo = _newElement;
     }
 }

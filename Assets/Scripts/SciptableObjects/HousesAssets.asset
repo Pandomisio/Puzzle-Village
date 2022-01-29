@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buildings:
   - _enumType: 0
-    _sprite: {fileID: 0}
+    _sprite: {fileID: 21300000, guid: 486693a798fa0c343b491fd0f06174c0, type: 3}
     _levelsOfBuilding: []
   - _enumType: 1
-    _sprite: {fileID: 0}
+    _sprite: {fileID: 21300000, guid: 486693a798fa0c343b491fd0f06174c0, type: 3}
     _levelsOfBuilding:
     - _requireResources:
       - _requiredResource: 4

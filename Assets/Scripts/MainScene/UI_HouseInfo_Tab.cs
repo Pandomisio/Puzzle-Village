@@ -18,9 +18,10 @@ public class UI_HouseInfo_Tab : MonoBehaviour
         _textDesrc.text = description;
         _iconImage.sprite = icon;
 
-        //_buttonClose.onClick( () => { });
-
-
+        _buttonClose.onClick.AddListener( () => { Destroy(this.gameObject); });
+        _buttonBuild.onClick.AddListener( () => {
+            UI_Manager_MainScene.Instance.OpenUpWindow(UI_Manager_MainScene.UI_Element.buildHouse,_iconImage.sprite);
+        });
 
         /*
         //Debug.Log("UI_Houseinfotab res:");
@@ -29,5 +30,7 @@ public class UI_HouseInfo_Tab : MonoBehaviour
             //Debug.Log(resource._quantity);
         }
         */
+
+
     }
 }
